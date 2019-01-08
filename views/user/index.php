@@ -22,9 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'summary'=>'',
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+           // ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute'=>'id',
                 'value'=>function($data)
@@ -55,6 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function($data)
                     {
                         return $data->department->department_name;
+                    }
+            ],
+            [
+                'attribute'=>'type',
+                'value'=>function($data)
+                    {
+                        return $data->type;
                     }
             ],
             //'mobile',

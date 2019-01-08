@@ -12,6 +12,7 @@ use Yii;
  * @property string $id
  * @property integer $submit_year
  * @property string $department_id
+ * @property string $date
  *
  * @property \app\models\ProjectProposal[] $projectProposals
  * @property \app\models\Department $department
@@ -36,8 +37,9 @@ abstract class ProjectProposalYear extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['submit_year', 'department_id'], 'required'],
+            [['submit_year', 'department_id', 'date'], 'required'],
             [['submit_year', 'department_id'], 'integer'],
+            [['date'], 'safe'],
             [['department_id', 'submit_year'], 'unique', 'targetAttribute' => ['department_id', 'submit_year']],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Department::className(), 'targetAttribute' => ['department_id' => 'id']]
         ];
@@ -52,6 +54,7 @@ abstract class ProjectProposalYear extends \yii\db\ActiveRecord
             'id' => Yii::t('models', 'ID'),
             'submit_year' => Yii::t('models', 'Submit Year'),
             'department_id' => Yii::t('models', 'Department ID'),
+            'date' => Yii::t('models', 'Date'),
         ];
     }
 

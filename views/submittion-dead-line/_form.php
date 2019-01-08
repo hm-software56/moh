@@ -14,7 +14,8 @@ use yii\widgets\ActiveForm;
     $year=[
         date('Y',strtotime('0 year'))=>date('Y',strtotime('0 year')),
         date('Y',strtotime('1 year'))=>date('Y',strtotime('1 year')),
-        date('Y',strtotime('2 year'))=>date('Y',strtotime('2 year'))
+        date('Y',strtotime('2 year'))=>date('Y',strtotime('2 year')),
+        date('Y',strtotime('3 year'))=>date('Y',strtotime('3 year'))
         
     ];
     echo $form->field($model, 'current_year')->dropDownList($year);

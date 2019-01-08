@@ -67,6 +67,7 @@ class ProjectProposalYearController extends Controller
     public function actionCreate()
     {
         $model = new ProjectProposalYear();
+        $model->date=date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if (!empty(Yii::$app->session['model_items'])) {
                 foreach (Yii::$app->session['model_items'] as $listprojects) {
@@ -99,7 +100,7 @@ class ProjectProposalYearController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->date=date('Y-m-d H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             foreach (Yii::$app->session['model_items'] as $listprojects) {
                 $proposal=ProjectProposal::find()->where(['id'=>$listprojects->id])->one();
@@ -118,10 +119,7 @@ class ProjectProposalYearController extends Controller
             unset( Yii::$app->session['model_items']);
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         Yii::$app->session['model_items']=ProjectProposal::find()->where(['project_proposal_year_id'=>$model->id])->orderBy('id DESC')->all();
-        
-
         return $this->render('update', [
             'model' => $model,
         ]);

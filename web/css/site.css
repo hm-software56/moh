@@ -145,3 +145,7 @@ a.desc:after {
 .dropdown-menu > li > a {
     color: #fff;
 }
+
+.dropdown-menu > li > a:hover{
+    background-color: #c6ff1a;
+}

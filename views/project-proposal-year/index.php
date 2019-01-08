@@ -33,6 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
             ],
             'submit_year',
+            [
+                'attribute'=>'date',
+                'value'=>function($data)
+                    {
+                        return date('Y-m-d',strtotime($data->date));
+                    }
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',

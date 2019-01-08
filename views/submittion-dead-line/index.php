@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'update' => function ($url, $model) {
                         return Html::a(
-                                    '<span class="glyphicon glyphicon-edit"></span>', $url, [
+                                    '<span class="glyphicon glyphicon-edit text-warning"></span>', $url, [
                                     'class' => 'btn btn-success btn-xs',
                                     ]
                         );

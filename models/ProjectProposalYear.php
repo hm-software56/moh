@@ -40,6 +40,7 @@ class ProjectProposalYear extends BaseProjectProposalYear
                 'id' => Yii::t('models', 'ID'),
                 'submit_year' => Yii::t('models', 'ປີ​'),
                 'department_id' => Yii::t('models', '​ພະ​ແນກ'),
+                'date' => Yii::t('models', '​ວັນ​ທີ່'),
             ]
         );
     }

@@ -48,6 +48,7 @@ class User extends BaseUser implements \yii\web\IdentityInterface
                 'department_id' => Yii::t('models', 'ພະ​ແນກ'),
                 'mobile' => Yii::t('models', '​ເບີ​ໂທ'),
                 'status' => Yii::t('models', 'ສ​ະ​ຖາ​ນະ'),
+                'type' => Yii::t('models', 'ປະ​ເພດ'),
             ]
         );
     }

@@ -56,7 +56,7 @@ NavBar::end();
     <div class="container">
         <?=Breadcrumbs::widget([
             'homeLink' => ['label' =>Yii::t('app','ໜ້າຫຼັກ'),'url'=>['site/index']],
-    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 ])?>
         <?=Alert::widget()?>
         <?=$content?>

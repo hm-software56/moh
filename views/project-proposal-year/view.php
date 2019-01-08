@@ -35,6 +35,10 @@ if (!empty($deadline)) {
         'attributes' => [
             'submit_year',
             [  
+                'label' => Yii::t('app','ວັນ​ທີ່'),
+                'value' => date("Y-m-d",strtotime($model->date)),
+            ],
+            [  
                 'label' => Yii::t('app','ພະ​ແນກ'),
                 'value' => $model->department->department_name,
             ],

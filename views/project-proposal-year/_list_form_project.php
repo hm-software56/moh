@@ -6,18 +6,21 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class="contacts table-responsive">
             <label><?=Yii::t('app','ລາຍ​ການໂຄງ​ການ​ທັງ​ໝົດ')?></label>
-            <table class="table tab-content">
+            <table class="table table-bordered table-dark tab-content">
                 <tr style="background:#eff5f5">
-                    <td></td>
+                    <th><?=Yii::t('app','ລ​/ດ')?></th>
+                    <th ><?=Yii::t('app','ລະ​ຫັດ​ໂຄງ​ກາ​ນ​ສືບ​ຕໍ່')?></th>
                     <th><?=Yii::t('app','ຊື່​​ໂຄງ​ການ')?></th>
                     <th><?=Yii::t('app','​ປີ​ເລີ່ມ')?></th>
                     <th><?=Yii::t('app','​ປີ​ສີ້ນ​ສຸດ')?></th>
                     <th><?=Yii::t('app','​ຈຳ​ນວນ​ເງີນ/​ລ້ານ​ກີບ')?></th>
-                    <th><?=Yii::t('app','ລະ​ຫັດ​ໂຄງ​ກາ​ນ​ສືບ​ໂຕ')?></th>
                     <th></th>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" style="width:100px;">
+                        <input data-rule-required=true data-msg-required="Your message"  type="text" name="ProjectProposal['code_old_project'][]" id="code_old_project" class="form-control" autocomplete="off">
+                    </td>
+                    <td style="width:500px;">
                     <input type="text" id="project_name" class="form-control" name="ProjectProposal['project_name'][]" autocomplete="off">
                     </td>
                     <td style="width:100px;">
@@ -29,11 +32,8 @@ use yii\helpers\Html;
                     <td style="width:100px;">
                         <input type="number" placeholder="YYYY" min="2017" max="2100" step="1"  type="text" name="ProjectProposal['end_year'][]" id="end_year" class="form-control" autocomplete="off">
                     </td>
-                    <td style="width:200px;">
-                        <input data-rule-required=true data-msg-required="Your message"  type="text" name="ProjectProposal['amount'][]" id="amount" class="form-control money_format" autocomplete="off">
-                    </td>
                     <td style="width:150px;">
-                        <input data-rule-required=true data-msg-required="Your message"  type="text" name="ProjectProposal['code_old_project'][]" id="code_old_project" class="form-control" autocomplete="off">
+                        <input data-rule-required=true data-msg-required="Your message"  type="text" name="ProjectProposal['amount'][]" id="amount" class="form-control money_format" autocomplete="off">
                     </td>
                     <td align="right">
                         <?php
@@ -85,11 +85,11 @@ use yii\helpers\Html;
                             ?>
                 <tr id="list_pt<?=$key?>">
                     <td><?=$count+1?></td>
+                    <td><?=$model->code_old_project?> </td>
                     <td><?=$model->project_name ?></td>
                     <td><?=$model->start_year?> </td>
                     <td><?=$model->end_year?> </td>
                     <td><?=number_format($model->amount,2)?> </td>
-                    <td><?=$model->code_old_project?> </td>
                     <td align="right">
                         <?php
                         echo yii\helpers\Html::a("-", '#', [
