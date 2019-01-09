@@ -7,41 +7,34 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->title = 'Login';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-4"></div>
+<div class="col-md-4">
+    <div class="site-login">
+        <div style="font-size:18px;border-bottom: 2px solid red; padding-top:140px;">​<?=Yii::t('app','​ທ່ານປ້ອນ​ຊື່​ແລະ​ຫັດ​ຜານ')?></div>
+        <br/>
+        <?php $form = ActiveForm::begin([
+            'id' => 'login-form',
+           /* 'layout' => 'horizontal',
+            'fieldConfig' => [
+                'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+                'labelOptions' => ['class' => 'col-lg-1 control-label'],
+            ],*/
+        ]); ?>
 
-    <p>Please fill out the following fields to login:</p>
+            <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label(Yii::t('app','ປ້ອນ​ຊື່​ເຂົ້າ​ລະ​ບົບ')) ?>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
+            <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('app','ປ້ອນ​ລະ​ຫັດ​ຜ່ານ​')) ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
-
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
-
-        <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <div class="form-group">
+                <div class="col-md-12" align="right">
+                    <?= Html::submitButton('<span class="glyphicon glyphicon-lock" ></span> ເຂົ້າ​ລະ​ບົບ', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                </div>
             </div>
-        </div>
 
-    <?php ActiveForm::end(); ?>
-
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
+<div class="col-md-4"></div>

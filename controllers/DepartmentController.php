@@ -33,6 +33,15 @@ class DepartmentController extends Controller
      * Lists all Department models.
      * @return mixed
      */
+    public function actions()
+    {
+        if(empty(Yii::$app->user->id))
+        {
+            $this->redirect(['site/login']);
+        }
+        return parent::actions();
+    }
+    
     public function actionIndex()
     {
         $searchModel = new DepartmentSearch();

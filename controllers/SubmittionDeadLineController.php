@@ -29,6 +29,14 @@ class SubmittionDeadLineController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        if(empty(Yii::$app->user->id))
+        {
+            $this->redirect(['site/login']);
+        }
+        return parent::actions();
+    }
     /**
      * Lists all SubmittionDeadLine models.
      * @return mixed

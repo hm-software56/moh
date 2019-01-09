@@ -44,6 +44,7 @@ if (!empty($deadline)) {
             ],
         ],
     ]) ?>
+    
     <?php
     $listproposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$model->id])->all();
     ?>
@@ -55,10 +56,10 @@ if (!empty($deadline)) {
                 <tr style="background:#eff5f5">
                     <td></td>
                     <th><?=Yii::t('app','ຊື່​​ໂຄງ​ການ')?></th>
+                    <th><?=Yii::t('app','ສະ​ຖາ​ນະ')?></th>
                     <th><?=Yii::t('app','​ປີ​ເລີ່ມ')?></th>
                     <th><?=Yii::t('app','​ປີ​ສີ້ນ​ສຸດ')?></th>
                     <th><?=Yii::t('app','​ຈຳ​ນວນ​ເງີນ/​ລ້ານ​ກີບ')?></th>
-                    <th><?=Yii::t('app','ລະ​ຫັດ​ໂຄງ​ກາ​ນ​ສືບ​ໂຕ')?></th>
                     <th></th>
                 </tr>
                 <?php
@@ -70,10 +71,10 @@ if (!empty($deadline)) {
                 <tr>
                     <td><?=$i?></td>
                     <td><?=$proposal->project_name?></td>
+                    <td><?=$proposal->code_old_project?></td>
                     <td><?=$proposal->start_year?></td>
                     <td><?=$proposal->end_year?></td>
                     <td><?=number_format($proposal->amount,2)?></td>
-                    <td><?=$proposal->code_old_project?></td>
                 </tr>
                 <?php
                         }

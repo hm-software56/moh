@@ -30,6 +30,14 @@ class ProjectProposalYearController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        if(empty(Yii::$app->user->id))
+        {
+            $this->redirect(['site/login']);
+        }
+        return parent::actions();
+    }
     /**
      * Lists all ProjectProposalYear models.
      * @return mixed
@@ -119,7 +127,9 @@ class ProjectProposalYearController extends Controller
             unset( Yii::$app->session['model_items']);
             return $this->redirect(['view', 'id' => $model->id]);
         }
-        Yii::$app->session['model_items']=ProjectProposal::find()->where(['project_proposal_year_id'=>$model->id])->orderBy('id DESC')->all();
+        if (empty(Yii::$app->session['model_items'])) {
+            Yii::$app->session['model_items']=ProjectProposal::find()->where(['project_proposal_year_id'=>$model->id])->orderBy('id DESC')->all();
+        }
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -178,7 +188,6 @@ class ProjectProposalYearController extends Controller
 
         return $this->renderAjax('_list_form_project');
     }
-
     public function actionDelproject()
     {
         $arr=[];
@@ -195,4 +204,29 @@ class ProjectProposalYearController extends Controller
         }
         Yii::$app->session['model_items']=$arr;
     }
+
+    public function actionEditprojects($id)
+    {
+        $model=Yii::$app->session['model_items'][$id];
+        if(isset($_POST['project_name']))
+        {
+            $model_item_arr=[];
+            foreach (Yii::$app->session['model_items'] as $key=>$model_item) {
+                //$model_item=new ProjectProposal();
+                if ($key==$id) {
+                    $model_item->project_name=$_POST['project_name'];
+                    $model_item->start_year=$_POST['start_year'];
+                    $model_item->end_year=$_POST['end_year'];
+                    $model_item->amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount']), 0, -2);
+                    $model_item->code_old_project=$_POST['code_old_project'];
+                    $model_item_arr[$key]=$model_item;
+                }else{
+                    $model_item_arr[$key]=$model_item;
+                }
+            }
+           return $this->renderAjax('_list_form_project');
+        }
+        return $this->renderAjax('_edit_form_project',['model'=>$model,'key'=>$id]);
+    }
+    
 }

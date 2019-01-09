@@ -1,7 +1,3 @@
-<?php
-use kartik\select2\Select2;
-use yii\helpers\Html;
-?>
 <div class="row">
     <div class="col-md-12">
         <div class="contacts table-responsive">
@@ -9,22 +5,27 @@ use yii\helpers\Html;
             <table class="table table-bordered table-dark tab-content">
                 <tr style="background:#eff5f5">
                     <th><?=Yii::t('app','ລ​/ດ')?></th>
-                    <th ><?=Yii::t('app','ລະ​ຫັດ​ໂຄງ​ກາ​ນ​ສືບ​ຕໍ່')?></th>
                     <th><?=Yii::t('app','ຊື່​​ໂຄງ​ການ')?></th>
+                    <th ><?=Yii::t('app','​ສະ​ຖາ​ນະ')?></th>
                     <th><?=Yii::t('app','​ປີ​ເລີ່ມ')?></th>
                     <th><?=Yii::t('app','​ປີ​ສີ້ນ​ສຸດ')?></th>
                     <th><?=Yii::t('app','​ຈຳ​ນວນ​ເງີນ/​ລ້ານ​ກີບ')?></th>
                     <th></th>
                 </tr>
                 <tr>
-                    <td colspan="2" style="width:100px;">
-                        <input data-rule-required=true data-msg-required="Your message"  type="text" name="ProjectProposal['code_old_project'][]" id="code_old_project" class="form-control" autocomplete="off">
-                    </td>
+                    <td></td>
                     <td style="width:500px;">
-                    <input type="text" id="project_name" class="form-control" name="ProjectProposal['project_name'][]" autocomplete="off">
+                        <input type="text" id="project_name" class="form-control" name="ProjectProposal['project_name'][]" autocomplete="off">
                     </td>
                     <td style="width:100px;">
-                    <input  type="number" placeholder="YYYY" min="2017" max="2100" step="1" name="ProjectProposal['start_year'][]" id="start_year" class="form-control" autocomplete="off">   
+                        <select name="ProjectProposal['code_old_project'][]" id="code_old_project" class="form-control">
+                        <option ></option>
+                            <option value="​ສືບ​ຕໍ່">ສືບ​ຕໍ່</option>
+                            <option value="ໃໝ່">ໃໝ່</option>
+                        </select>
+                    </td>
+                    <td style="width:100px;">
+                        <input  type="number" placeholder="YYYY" min="2017" max="2100" step="1" name="ProjectProposal['start_year'][]" id="start_year" class="form-control" autocomplete="off">   
                     <script>
                     document.querySelector("input[type=number]").oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
                     </script>
@@ -85,12 +86,27 @@ use yii\helpers\Html;
                             ?>
                 <tr id="list_pt<?=$key?>">
                     <td><?=$count+1?></td>
-                    <td><?=$model->code_old_project?> </td>
                     <td><?=$model->project_name ?></td>
+                    <td><?=$model->code_old_project?> </td>
                     <td><?=$model->start_year?> </td>
                     <td><?=$model->end_year?> </td>
                     <td><?=number_format($model->amount,2)?> </td>
                     <td align="right">
+                    <?php
+                        echo yii\helpers\Html::a("e", '#', [
+                            'onclick' => "
+                                    $.ajax({
+                                    type     :'GET',
+                                    cache    : false,
+                                    url  : 'index.php?r=project-proposal-year/editprojects&id=".$key."',
+                                    success  : function(response) {
+                                    $('#edit_project').html(response);
+                                    }
+                                    });return false;",
+                            'class'=>'btn btn-primary btn-sm ls-modal',
+                           // 'id'=>'jobPop'
+                        ]);
+                        ?>
                         <?php
                         echo yii\helpers\Html::a("-", '#', [
                           //  'confirm' => Yii::t('models', 'Are you sure you want to delete this item?'),
@@ -124,3 +140,4 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
+<div id="edit_project"></div>

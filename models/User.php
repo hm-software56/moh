@@ -53,7 +53,7 @@ class User extends BaseUser implements \yii\web\IdentityInterface
         );
     }
 
-/////////////// for login function //////////////////////
+    /////////////// for login function //////////////////////
     /**
      * {@inheritdoc}
      */

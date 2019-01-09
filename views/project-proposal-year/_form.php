@@ -13,7 +13,7 @@ use app\models\SubmittionDeadLine;
 
 <div class="project-proposal-year-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([]); ?>
     <?php
     $year=[];
     $deadline=SubmittionDeadLine::find()->where('dead_line>="'.date('Y-m-d').'"')->all();

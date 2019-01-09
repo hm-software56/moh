@@ -38,7 +38,7 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
-        ['label' => Yii::t('app', 'ປ້ອນ​ໂຄງ​ການ​ທີ່​ສະ​ເໜີ'),'url' => ['project-proposal-year/index']],
+        ['label' => Yii::t('app', 'ປ້ອນບົດສະເໜີໂຄງການ'),'url' => ['project-proposal-year/index']],
         ['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
             'items' => [
                 ['label' => 'ຈັດ​ການ​ພະ​ແນກ', 'url' => ['department/index']],
