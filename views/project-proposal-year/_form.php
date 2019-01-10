@@ -32,7 +32,7 @@ use app\models\SubmittionDeadLine;
     }else{
         $department=Department::find()->all();
     }
-
+   // $department=Department::find()->all();
     echo $form->field($model, 'department_id')->dropDownList(ArrayHelper::map($department,'id','department_name'),['prompt'=>'']) ?>
     
     <div id="list_pt">

@@ -50,7 +50,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'ຊື່​ເຂົ້າ​ລະ​ບົບ​ຫຼື​ລະ​ຫັດ​ຜ່ານ​ບໍ່​ຖຶກ​ຕ້ອງ.');
             }
         }
     }
