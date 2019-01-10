@@ -8,14 +8,14 @@ use app\models\SubmittionDeadLine;
 /* @var $searchModel app\models\ProjectProposalYearSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'ສະເຫນີໂຄງການ');
+$this->title = Yii::t('app', 'ບົດສະເຫນີໂຄງການ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-proposal-year-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'ປ້ອນໂຄງການສະເຫນີ'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'ປ້ອນບົດສະເຫນີໂຄງການ'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
