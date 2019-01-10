@@ -13,7 +13,7 @@ use yii\bootstrap\ActiveForm;
 <div class="col-md-4"></div>
 <div class="col-md-4">
     <div class="site-login">
-        <div style="font-size:18px;border-bottom: 2px solid red; padding-top:140px;">​<?=Yii::t('app','​ທ່ານປ້ອນ​ຊື່​ແລະ​ຫັດ​ຜານ')?></div>
+        <div style="font-size:18px;border-bottom: 2px solid red; padding-top:140px; font-weight:bold;">​<?=Yii::t('app','​ທ່ານປ້ອນ​ຊື່​ແລະ​ຫັດ​ຜານ')?></div>
         <br/>
         <?php $form = ActiveForm::begin([
             'id' => 'login-form',
