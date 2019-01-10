@@ -53,7 +53,15 @@ class SiteController extends Controller
             ],
         ];
     }
-
+    public function afterAction($action, $result)
+    {
+        if(!Yii::$app->user->id && $action->id!="login")
+        {
+            return $this->redirect(yii\helpers\Url::toRoute(["site/login"]));
+        }else{
+            return $result;
+        }
+    }
     /**
      * Displays homepage.
      *
@@ -94,7 +102,6 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

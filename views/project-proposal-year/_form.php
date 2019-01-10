@@ -25,7 +25,15 @@ use app\models\SubmittionDeadLine;
     }
     echo $form->field($model, 'submit_year')->dropDownList($year);
     ?>
-    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->all(),'id','department_name'),['prompt'=>'']) ?>
+    <?php
+    if(Yii::$app->user->identity->type=="User")
+    {
+        $department=Department::find()->where(['id'=>Yii::$app->user->identity->department_id])->all();
+    }else{
+        $department=Department::find()->all();
+    }
+
+    echo $form->field($model, 'department_id')->dropDownList(ArrayHelper::map($department,'id','department_name'),['prompt'=>'']) ?>
     
     <div id="list_pt">
         <?php

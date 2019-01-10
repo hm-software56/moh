@@ -37,20 +37,20 @@ NavBar::begin([
 ]);
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
-    'items' => [
+    'items' => (Yii::$app->user->id)?[
         ['label' => Yii::t('app', 'ປ້ອນບົດສະເໜີໂຄງການ'),'url' => ['project-proposal-year/index']],
-        ['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
+        (Yii::$app->user->identity->type=="Admin")?['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
             'items' => [
                 ['label' => 'ຈັດ​ການ​ພະ​ແນກ', 'url' => ['department/index']],
                 ['label' => 'ຈັດ​ການ​ຜູ້​ໃຊ້​ລະ​ບົບ', 'url' => ['user/index']],
                 ['label' => 'ຈັດ​ການ​ກໍານົດວັນທີ່ສົ່ງ', 'url' => ['submittion-dead-line/index']],
             ],
             
-        ],
+        ]:'',
         
         (Yii::$app->user->id)?['label' => Yii::t('app', 'ອອກ​ຈາກ​ລະ​ບົບ'),'url' => ['site/logout']]:'',
 
-    ],
+    ]:[],
 ]);
 NavBar::end();
 ?>

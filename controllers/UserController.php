@@ -37,6 +37,16 @@ class UserController extends Controller
         }
         return parent::actions();
     }
+
+    public function afterAction($action, $result)
+    {
+        if(Yii::$app->user->identity->type!="Admin")
+        {
+            return $this->redirect(yii\helpers\Url::toRoute(["site/error"]));
+        }else{
+            return $result;
+        }
+    }
     /**
      * Lists all User models.
      * @return mixed

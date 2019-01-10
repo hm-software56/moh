@@ -27,7 +27,9 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+          //  [['username', 'password'], 'required'],
+            [['password'], 'required', 'message'=>'ທ່ານ​ຕ້ອງ​ປ້ອນ​ລະ​ຫັດ​ຜ່ານ'],
+            [['username'], 'required', 'message'=>'ທ່ານ​ຕ້ອງ​ປ້ອນ​​ຊື່​ເຂົ້າ​ລະ​ບົບ'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
