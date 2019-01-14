@@ -60,8 +60,16 @@ class ProjectProposalYearSearch extends ProjectProposalYear
         $query->andFilterWhere([
             'id' => $this->id,
             'submit_year' => $this->submit_year,
-            'department_id' => $this->department_id,
+            
         ]);
+        if(Yii::$app->user->id && Yii::$app->user->identity->type!="Admin")
+        {
+            $query->andFilterWhere(
+                [
+                    'department_id' =>Yii::$app->user->identity->department_id,
+                ]
+            );
+        }
 
         return $dataProvider;
     }

@@ -9,7 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\ProjectProposal;
-
+use app\models\AttachFile;
+use yii\web\UploadedFile;
 /**
  * ProjectProposalYearController implements the CRUD actions for ProjectProposalYear model.
  */
@@ -228,5 +229,47 @@ class ProjectProposalYearController extends Controller
         }
         return $this->renderAjax('_edit_form_project',['model'=>$model,'key'=>$id]);
     }
+
+    public function actionReportexternal()
+    {
+        $model = new ProjectProposalYear();
+        if ($model->load(Yii::$app->request->post())) {
+        }
+        return $this->render('reportexternal',['model'=>$model]);
+    }
     
+    public function actionDownload()
+    {
+    header('Content-Type: application/force-download');
+    header('Content-disposition: attachment; filename=export.xls');
+    // Fix for crappy IE bug in download.
+    header("Pragma: ");
+    header("Cache-Control: ");
+    return $_POST['text'];
+    }
+
+    public function actionUploadfile($id,$prid)
+    {   $model=AttachFile::find()->where(['project_proposal_id'=>$id])->one();
+        if(empty($model))
+        {
+            $model=new AttachFile();
+        }
+        
+        if($model->load(Yii::$app->request->post()))
+        {
+            $model->name = UploadedFile::getInstance($model, 'name');
+            $photo_name = date('YmdHmsi') . '.' . $model->name->extension;
+            $model->name->saveAs(Yii::$app->basePath . '/web/file/' . $photo_name);
+            $model->name = $photo_name;
+            $model->project_proposal_id=$id;
+            $model->save();
+            return $this->redirect(['project-proposal-year/view','id'=>$prid]);
+        }
+        return $this->renderAjax('_form_upload_file',['model'=>$model]);
+    }
+
+    public function actionDownloadfile($name)
+    {
+        Yii::$app->response->sendFile(Yii::$app->basePath . '/web/file/' .$name);
+    }
 }

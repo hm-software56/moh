@@ -39,6 +39,12 @@ echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => (Yii::$app->user->id)?[
         ['label' => Yii::t('app', 'ປ້ອນບົດສະເໜີໂຄງການ'),'url' => ['project-proposal-year/index']],
+        ['label' => Yii::t('app', 'ລາຍ​ງານ'),
+            'items' => [
+                ['label' => 'ລາຍ​ງານບົດສະເໜີໂຄງການຂອງ​ກົມ', 'url' => ['project-proposal-year/reportexternal']],
+            ],
+            
+        ],
         (Yii::$app->user->identity->type=="Admin")?['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
             'items' => [
                 ['label' => 'ຈັດ​ການ​ພະ​ແນກ', 'url' => ['department/index']],

@@ -44,7 +44,7 @@ class DepartmentController extends Controller
     
     public function afterAction($action, $result)
     {
-        if(Yii::$app->user->identity->type!="Admin")
+        if( Yii::$app->user->id && Yii::$app->user->identity->type!="Admin")
         {
             return $this->redirect(yii\helpers\Url::toRoute(["site/error"]));
         }else{

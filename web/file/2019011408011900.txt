@@ -1,0 +1,18 @@
+<?php
+                        echo yii\helpers\Html::a("-", '#', [
+                            'onclick' => "
+                                    $.ajax({
+                                    type     :'POST',
+                                    cache    : false,
+                                    url  : 'index.php?r=purchase/delpurchaseitems',
+                                    data: {
+                                        key_array:".$key.",
+                                        id:'".$model->id."',
+                                    },
+                                    success  : function(response) {
+                                    $('#list_pt".$key."').html(response);
+                                    }
+                                    });return false;",
+                           // 'style' => "color:red;",
+                            'class'=>'btn btn-danger btn-sm'
+                        ]); ?>

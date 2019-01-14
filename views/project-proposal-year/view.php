@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\ProjectProposal;
 use app\models\SubmittionDeadLine;
+use app\models\AttachFile;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProjectProposalYear */
@@ -75,6 +76,33 @@ if (!empty($deadline)) {
                     <td><?=$proposal->start_year?></td>
                     <td><?=$proposal->end_year?></td>
                     <td><?=number_format($proposal->amount,2)?></td>
+                    <td align="right">
+                    <?php
+                    $attach=AttachFile::find()->where(['project_proposal_id'=>$proposal->id])->one();
+                   if (!empty($attach)) {
+                       echo yii\helpers\Html::a("<span class='glyphicon glyphicon-download'></span>", ['downloadfile','name'=>$attach->name], [
+                        
+                        'class'=>'btn btn-like btn-sm ls-modal',
+                       // 'id'=>'jobPop'
+                    ]);
+                   }
+                   if (!empty($deadline)) {
+                       echo yii\helpers\Html::a("<span class='	glyphicon glyphicon-paperclip'></span>", '#', [
+                            'onclick' => "
+                                    $.ajax({
+                                    type     :'GET',
+                                    cache    : false,
+                                    url  : 'index.php?r=project-proposal-year/uploadfile&id=".$proposal->id."&prid=".$model->id."',
+                                    success  : function(response) {
+                                    $('#edit_file').html(response);
+                                    }
+                                    });return false;",
+                            'class'=>'btn btn-like btn-sm ls-modal',
+                           // 'id'=>'jobPop'
+                        ]);
+                   }
+                        ?>
+                    </td>
                 </tr>
                 <?php
                         }
@@ -84,3 +112,5 @@ if (!empty($deadline)) {
         </div>
     </div>
 </div>
+
+<div id="edit_file"></div>
