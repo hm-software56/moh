@@ -249,7 +249,7 @@ class ProjectProposalYearController extends Controller
     }
 
     public function actionUploadfile($id,$prid)
-    {   $model=AttachFile::find()->where(['project_proposal_id'=>$id])->one();
+    {   $model=AttachFile::find()->where(['id'=>$id])->one();
         if(empty($model))
         {
             $model=new AttachFile();
@@ -276,6 +276,7 @@ class ProjectProposalYearController extends Controller
     public function actionDeletefile($id,$prid)
     {
         $model=AttachFile::find()->where(['id'=>$id])->one();
+        unlink(Yii::$app->basePath . '/web/file/' .$model->name);
         $model->delete();
         return $this->redirect(['project-proposal-year/view','id'=>$prid]);
     }
