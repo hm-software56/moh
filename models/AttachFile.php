@@ -27,6 +27,7 @@ class AttachFile extends BaseAttachFile
         return ArrayHelper::merge(
             
             [
+                [['name'], 'required','message'=>Yii::t('app','ທ່ານ​ຕ້ອງ​ເລືອກ​ໄຟ​ຣ​ອັບ​ໂຫຼດ')],
                 [['name'], 'safe'],
                 [['name'], 'file', 'extensions'=>'jpg, png, doc, docx, pdf','wrongExtension'=>Yii::t('app','ທ່ານ​ມີ​ສິດ​ອັບ​ໂຫຼດ​ໄຟ​ຣ​ປະ​ເພດນີ້').' {extensions}'],
             ],
