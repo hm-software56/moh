@@ -54,7 +54,7 @@ echo Nav::widget([
             
         ]:'',
         
-        (Yii::$app->user->id)?['label' => Yii::t('app', 'ອອກ​ຈາກ​ລະ​ບົບ'),'url' => ['site/logout']]:'',
+        (Yii::$app->user->id)?['label' => Yii::t('app', 'ອອກ​ຈາກ​ລະ​ບົບ')." (".Yii::$app->user->identity->first_name.")",'url' => ['site/logout']]:'',
 
     ]:[],
 ]);
