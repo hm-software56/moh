@@ -273,5 +273,10 @@ class ProjectProposalYearController extends Controller
         Yii::$app->response->sendFile(Yii::$app->basePath . '/web/file/' .$name);
     }
 
-    
+    public function actionDeletefile($id,$prid)
+    {
+        $model=AttachFile::find()->where(['id'=>$id])->one();
+        $model->delete();
+        return $this->redirect(['project-proposal-year/view','id'=>$prid]);
+    }
 }

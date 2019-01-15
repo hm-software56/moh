@@ -101,6 +101,15 @@ if (!empty($deadline)) {
                            // 'id'=>'jobPop'
                         ]);
                    }
+
+                   if (!empty($attach)) {
+                    echo yii\helpers\Html::a("<span class='glyphicon glyphicon-remove'></span>", ['deletefile','id'=>$attach->id,'prid'=>$model->id], [
+                     
+                     'class'=>'btn btn-like btn-sm ls-modal',
+                    // 'id'=>'jobPop'
+                 ]);
+                }
+
                         ?>
                     </td>
                 </tr>
