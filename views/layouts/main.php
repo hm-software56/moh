@@ -45,11 +45,13 @@ echo Nav::widget([
             ],
             
         ],
+        (Yii::$app->user->identity->type!="Admin")?['label' => Yii::t('app', 'ຂໍ້​ມູນ​ສ່ວນ​ຕົວ'),'url' => ['user/profile']]:'',
+
         (Yii::$app->user->identity->type=="Admin")?['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
             'items' => [
-                ['label' => 'ຈັດ​ການ​ພະ​ແນກ', 'url' => ['department/index']],
-                ['label' => 'ຈັດ​ການ​ຜູ້​ໃຊ້​ລະ​ບົບ', 'url' => ['user/index']],
-                ['label' => 'ຈັດ​ການ​ກໍານົດວັນທີ່ສົ່ງ', 'url' => ['submittion-dead-line/index']],
+                ['label' => 'ບໍ​ລິ​ຫານ​ກົມ', 'url' => ['department/index']],
+                ['label' => 'ບໍລິ​ຫານ​ຜູ້​ໃຊ້​ລະ​ບົບ', 'url' => ['user/index']],
+                ['label' => 'ກຳ​ນົດ​ວັນ​ທີ່​ສົ່ງ​ບົດ​ໂຄງ​ການ', 'url' => ['submittion-dead-line/index']],
             ],
             
         ]:'',

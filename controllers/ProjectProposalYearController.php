@@ -11,6 +11,11 @@ use yii\filters\VerbFilter;
 use app\models\ProjectProposal;
 use app\models\AttachFile;
 use yii\web\UploadedFile;
+use PHPExcel;
+use PHPExcel_IOFactory;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use app\models\Department;
 /**
  * ProjectProposalYearController implements the CRUD actions for ProjectProposalYear model.
  */
@@ -234,6 +239,8 @@ class ProjectProposalYearController extends Controller
     {
         $model = new ProjectProposalYear();
         if ($model->load(Yii::$app->request->post())) {
+            Yii::$app->session['syear']=$model->submit_year;
+            Yii::$app->session['department_id']=$model->department_id;
         }
         return $this->render('reportexternal',['model'=>$model]);
     }
@@ -279,5 +286,98 @@ class ProjectProposalYearController extends Controller
         unlink(Yii::$app->basePath . '/web/file/' .$model->name);
         $model->delete();
         return $this->redirect(['project-proposal-year/view','id'=>$prid]);
+    }
+
+    public function actionExcel() {
+        // Create new PHPExcel object
+         $objPHPExcel = new PHPExcel();
+
+         $objPHPExcel->getActiveSheet()->mergeCells('A1:E1');
+
+         $objPHPExcel->getDefaultStyle()->applyFromArray(array('font' => array('name'  => 'Saysettha OT')));
+        
+         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('0acae5');
+         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold( true );
+        
+         // Add some data
+        $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('a1c4c4');
+        $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getFont()->setBold( true );
+
+        //// get total amount project All by year
+        $total_by_year=ProjectProposal::find()->joinWith('projectProposalYear')
+        ->where(['submit_year'=>Yii::$app->session['syear']])
+        ->sum('amount');
+        if(Yii::$app->user->identity->type !="Admin" && $total_by_year>0)
+        {
+            $total_by_year='';
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getFont()->setBold( true );
+        $objPHPExcel->getActiveSheet()->getStyle('F1')->getNumberFormat()->setFormatCode('#,##0.00');
+
+        $objPHPExcel->setActiveSheetIndex(0)
+        ->setCellValue('A1', Yii::t('app','ບົດ​ສະ​ເໜີ​ໂຄງ​ການ​ຂອງ​ປີ:').Yii::$app->session['syear'])
+        ->setCellValue('F1', $total_by_year)
+        ->setCellValue('A2', Yii::t('app','ລ/ດ'))
+        ->setCellValue('B2', Yii::t('app','ຊື່​​ໂຄງ​ການ'))
+        ->setCellValue('C2', Yii::t('app','ສະ​ຖາ​ນະ'))
+        ->setCellValue('D2', Yii::t('app','​ປີ​ເລີ່ມ'))
+        ->setCellValue('E2', Yii::t('app','​​ປີ​ສີ້ນ​ສຸດ'))
+        ->setCellValue('F2', Yii::t('app','​ຈຳ​ນວນ​ເງີນ/​ລ້ານ​ກີບ'));
+
+        /// getdata from database
+        $departments=Department::find()->where(['in', 'id', Yii::$app->session['department_id']])->all();
+        $i=2;
+        foreach($departments as $department)
+        {
+            $i++;
+            /// Mergeclell
+            $objPHPExcel->getActiveSheet()->mergeCells('A'.$i.':E'.$i.'');
+           //// backgroud cell
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eff5f5');
+            /// font bold
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$i)->getFont()->setBold( true );
+           
+            $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, $department->department_name);
+           
+            //// get total amount project by department
+            $total_by_department=ProjectProposal::find()->joinWith('projectProposalYear')
+            ->where(['department_id'=>$department->id])
+            ->andWhere(['submit_year'=>Yii::$app->session['syear']])
+            ->sum('amount');
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('c8d4c1');
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getFont()->setBold( true );
+            $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getNumberFormat()->setFormatCode('#,##0.00');
+            $objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $total_by_department,2);
+
+            $proposalyear =ProjectProposalYear::find()->where(['department_id'=>$department->id])->andWhere(['submit_year'=>Yii::$app->session['syear']])->one();
+            if(!empty($proposalyear))
+            {
+                $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->all();
+                $a=$i;
+                $r=0;
+                foreach($proposals as $proposal)
+                {
+                    $a++;
+                    $r++;
+                    $objPHPExcel->getActiveSheet()->setCellValue('A' . $a, $r);
+                    $objPHPExcel->getActiveSheet()->setCellValue('B' . $a, $proposal->project_name);
+                    $objPHPExcel->getActiveSheet()->setCellValue('C' . $a, $proposal->code_old_project);
+                    $objPHPExcel->getActiveSheet()->setCellValue('D' . $a, $proposal->start_year);
+                    $objPHPExcel->getActiveSheet()->setCellValue('E' . $a, $proposal->end_year);
+
+                    $objPHPExcel->getActiveSheet()->getStyle('F'.$a)->getNumberFormat()->setFormatCode('#,##0.00');
+                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $a, $proposal->amount);
+                }
+                $i=$a;
+            }else{
+                $i=$i+1;
+                $objPHPExcel->getActiveSheet()->mergeCells('A'.$i.':E'.$i.'');
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, Yii::t('app', '​ຍັງບໍ່​ມີ​ບົດ​ສະ​ເໜີ​ໂຄງ​ການ'));
+            }
+        }
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('reportexternal.xlsx'); // Save File
+        Yii::$app->response->sendFile(Yii::$app->basePath . '/web/reportexternal.xlsx');
+       
     }
 }

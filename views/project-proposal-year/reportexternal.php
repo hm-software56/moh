@@ -8,15 +8,6 @@ use app\models\SubmittionDeadLine;
 use kartik\select2\Select2;
 use app\models\ProjectProposalYear;
 use app\models\ProjectProposal;
-$script = <<< JS
-    $(function(){
-    $('#save').click(function () {
-        var mysave = $('#textBox').html();
-        $('#hiddeninput').val(mysave);
-    });
-});
-JS;
-$this->registerJs($script);
 ?>
 
 <div class="project-proposal-year-form">
@@ -57,16 +48,24 @@ $this->registerJs($script);
 <?php
 if (!empty($model->department_id)) {
     ?>
-<div class="col-md-12" align="right" style="padding-top:25px">
-    <?php $form = ActiveForm::begin(['action'=>['download']]); ?>
-    <input id="hiddeninput" name="text" type="hidden"/>
-    <button class="btn btn-danger" type="submit" id="save"  formtarget="_blank"><span class="glyphicon glyphicon-print"></span> <?=Yii::t('app', 'Excel')?></button>
-    <?php ActiveForm::end(); ?>
-</div>
+    <div class="col-md-12" align="right" style="padding-top:25px">
+        <?= Html::a('<span class="glyphicon glyphicon-print"></span> '.Yii::t('app', 'Excel'),['excel'], ['class' => 'btn btn-danger']) ?>
+    </div>
 <div id="textBox">
 <table class="table tab-content">
     <tr>
-    <td colspan="3"><b><?=Yii::t('app', 'ບົດ​ສະ​ເໜີ​ໂຄງ​ການ​ຂອງ​ປີ:').$model->submit_year ?></b></td>
+    <td colspan="5" style="background-color:#0acae5"><b><?=Yii::t('app', 'ບົດ​ສະ​ເໜີ​ໂຄງ​ການ​ຂອງ​ປີ:').$model->submit_year ?></b></td>
+    <td align="right"><b>
+        <?php
+        $total_by_year=ProjectProposal::find()->joinWith('projectProposalYear')
+        ->where(['submit_year'=>Yii::$app->session['syear']])
+        ->sum('amount');
+        if ($total_by_year>0 && Yii::$app->user->identity->type=="Admin") {
+            echo number_format($total_by_year, 2);
+        }
+        ?>
+        </b>
+    </td>
     </tr>
     <tr>
         <th style="background:#a1c4c4"><?=Yii::t('app', 'ລ/ດ')?></th>
@@ -82,7 +81,18 @@ if (!empty($model->department_id)) {
         foreach ($departments as $department) {
             $proposalyear =ProjectProposalYear::find()->where(['department_id'=>$department->id])->andWhere(['submit_year'=>$model->submit_year])->one(); ?>
         <tr>
-            <td colspan="6" style="background-color:#eff5f5"><b><?=$department->department_name?></b></td>
+            <td colspan="5" style="background-color:#eff5f5"><b><?=$department->department_name?></b></td>
+            <td align="right"><b>
+            <?php
+                $total_by_department=ProjectProposal::find()->joinWith('projectProposalYear')
+                ->where(['department_id'=>$department->id])
+                ->andWhere(['submit_year'=>Yii::$app->session['syear']])
+                ->sum('amount');
+                if ($total_by_department>0) {
+                    echo number_format($total_by_department, 2);
+                }
+            ?></b>
+            </td>
         </tr>
         <?php
             if (!empty($proposalyear)) {
@@ -97,7 +107,7 @@ if (!empty($model->department_id)) {
         <td><?=$proposal->code_old_project?></td>
         <td><?=$proposal->start_year?></td>
         <td><?=$proposal->end_year?></td>
-        <td><?=number_format($proposal->amount, 2)?></td>
+        <td align="right"><?=number_format($proposal->amount, 2)?></td>
     </tr>
     <?php
                     }
