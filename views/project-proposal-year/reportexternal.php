@@ -40,6 +40,15 @@ use app\models\ProjectProposal;
         ],
     ]);
     ?>
+    <div>
+            <label><?=Yii::t('app','ສະ​ຖາ​ນະ')?></label>
+            <select name="status" id="code_old_project" class="form-control">
+            <option ></option>
+                <option value="​ສືບ​ຕໍ່">ສືບ​ຕໍ່</option>
+                <option value="ໃໝ່">ໃໝ່</option>
+            </select>
+    </div>
+    <br/>
     <div class="form-group">
         <?= Html::submitButton('<span class="glyphicon glyphicon-eye-open"></span> '.Yii::t('app', 'ເບີ່ງ'), ['class' => 'btn btn-success']) ?>
     </div>
@@ -96,7 +105,12 @@ if (!empty($model->department_id)) {
         </tr>
         <?php
             if (!empty($proposalyear)) {
-                $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->all();
+                if(!empty(Yii::$app->session['r_status']))
+                {
+                    $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id,'code_old_project'=>Yii::$app->session['r_status']])->all();
+                }else{
+                    $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->all();
+                }
                 if (!empty($proposals)) {
                     $i=0;
                     foreach ($proposals as $proposal) {
