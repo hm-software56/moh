@@ -68,6 +68,8 @@ if (!empty($model->department_id)) {
         <?php
         $total_by_year=ProjectProposal::find()->joinWith('projectProposalYear')
         ->where(['submit_year'=>Yii::$app->session['syear']])
+        ->where(['in', 'department_id', $model->department_id])
+        ->andWhere(['in','code_old_project',Yii::$app->session['r_status']])
         ->sum('amount');
         if ($total_by_year>0 && Yii::$app->user->identity->type=="Admin") {
             echo number_format($total_by_year, 2);
