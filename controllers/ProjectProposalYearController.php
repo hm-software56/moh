@@ -241,7 +241,11 @@ class ProjectProposalYearController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             Yii::$app->session['syear']=$model->submit_year;
             Yii::$app->session['department_id']=$model->department_id;
-            Yii::$app->session['r_status']=$_POST['status'];
+            if (!empty($_POST['status'])) {
+                Yii::$app->session['r_status']=[$_POST['status']];
+            }else{
+                Yii::$app->session['r_status']=['​ສືບ​ຕໍ່','ໃໝ່'];
+            }
         }
         return $this->render('reportexternal',['model'=>$model]);
     }

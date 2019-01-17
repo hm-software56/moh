@@ -96,6 +96,7 @@ if (!empty($model->department_id)) {
                 $total_by_department=ProjectProposal::find()->joinWith('projectProposalYear')
                 ->where(['department_id'=>$department->id])
                 ->andWhere(['submit_year'=>Yii::$app->session['syear']])
+                ->andWhere(['in','code_old_project',Yii::$app->session['r_status']])
                 ->sum('amount');
                 if ($total_by_department>0) {
                     echo number_format($total_by_department, 2);
@@ -105,12 +106,7 @@ if (!empty($model->department_id)) {
         </tr>
         <?php
             if (!empty($proposalyear)) {
-                if(!empty(Yii::$app->session['r_status']))
-                {
-                    $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id,'code_old_project'=>Yii::$app->session['r_status']])->all();
-                }else{
-                    $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->all();
-                }
+                    $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->andWhere(['in','code_old_project',Yii::$app->session['r_status']])->all();
                 if (!empty($proposals)) {
                     $i=0;
                     foreach ($proposals as $proposal) {
