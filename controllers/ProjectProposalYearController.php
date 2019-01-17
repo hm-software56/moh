@@ -311,6 +311,8 @@ class ProjectProposalYearController extends Controller
         //// get total amount project All by year
         $total_by_year=ProjectProposal::find()->joinWith('projectProposalYear')
         ->where(['submit_year'=>Yii::$app->session['syear']])
+        ->where(['in', 'department_id', Yii::$app->session['department_id']])
+        ->andWhere(['in','code_old_project',Yii::$app->session['r_status']])
         ->sum('amount');
         if(Yii::$app->user->identity->type !="Admin" && $total_by_year>0)
         {
@@ -330,7 +332,9 @@ class ProjectProposalYearController extends Controller
         ->setCellValue('F2', Yii::t('app','​ຈຳ​ນວນ​ເງີນ/​ລ້ານ​ກີບ'));
 
         /// getdata from database
-        $departments=Department::find()->where(['in', 'id', Yii::$app->session['department_id']])->all();
+        $departments=Department::find()
+            ->where(['in', 'id', Yii::$app->session['department_id']])
+            ->all();
         $i=2;
         foreach($departments as $department)
         {
@@ -347,6 +351,7 @@ class ProjectProposalYearController extends Controller
             //// get total amount project by department
             $total_by_department=ProjectProposal::find()->joinWith('projectProposalYear')
             ->where(['department_id'=>$department->id])
+            ->andWhere(['in','code_old_project',Yii::$app->session['r_status']])
             ->andWhere(['submit_year'=>Yii::$app->session['syear']])
             ->sum('amount');
             $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('c8d4c1');
@@ -354,10 +359,16 @@ class ProjectProposalYearController extends Controller
             $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getNumberFormat()->setFormatCode('#,##0.00');
             $objPHPExcel->getActiveSheet()->setCellValue('F' . $i, $total_by_department,2);
 
-            $proposalyear =ProjectProposalYear::find()->where(['department_id'=>$department->id])->andWhere(['submit_year'=>Yii::$app->session['syear']])->one();
+            $proposalyear =ProjectProposalYear::find()
+            ->where(['department_id'=>$department->id])
+            ->andWhere(['submit_year'=>Yii::$app->session['syear']])
+            ->one();
             if(!empty($proposalyear))
             {
-                $proposals=ProjectProposal::find()->where(['project_proposal_year_id'=>$proposalyear->id])->all();
+                $proposals=ProjectProposal::find()
+                ->where(['project_proposal_year_id'=>$proposalyear->id])
+                ->andWhere(['in','code_old_project',Yii::$app->session['r_status']])
+                ->all();
                 $a=$i;
                 $r=0;
                 foreach($proposals as $proposal)
