@@ -301,7 +301,7 @@ class ProjectProposalYearController extends Controller
 
          $objPHPExcel->getDefaultStyle()->applyFromArray(array('font' => array('name'  => 'Saysettha OT')));
         
-         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('0acae5');
+         $objPHPExcel->getActiveSheet()->getStyle('A1')->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('cc0000');
          $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold( true );
         
          // Add some data
@@ -342,7 +342,7 @@ class ProjectProposalYearController extends Controller
             /// Mergeclell
             $objPHPExcel->getActiveSheet()->mergeCells('A'.$i.':E'.$i.'');
            //// backgroud cell
-            $objPHPExcel->getActiveSheet()->getStyle('A'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('eff5f5');
+            $objPHPExcel->getActiveSheet()->getStyle('A'.$i)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('00b300');
             /// font bold
             $objPHPExcel->getActiveSheet()->getStyle('A'.$i)->getFont()->setBold( true );
            
