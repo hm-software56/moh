@@ -8,13 +8,11 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Update Employee Level: ' . $model->id, [
     'nameAttribute' => '' . $model->id,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Employee Levels'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'ຍົກລະ​ດັບ​ຢູ່​ພາຍ​ໃນ ແລະ ​ຕ່າງ​ປະ​ເທດ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('app', 'ແກ້​ໄຂ');
 ?>
 <div class="employee-level-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

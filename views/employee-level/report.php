@@ -27,12 +27,18 @@ use app\models\EmployeeLevel;
     <?php ActiveForm::end(); ?>
     <?php
 if (!empty($model->year)) {
+    $minstrys=EmployeeLevel::find()
+        ->joinWith('ministry', true)
+        ->where(['in', 'ministry_id', $model->ministry_id])
+        ->andWhere(['year'=>$model->year])
+       // ->orderBy('ministry_id ASC')
+        ->all();
     ?>
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered ">
     <tr>
         <td rowspan="3">ລ​ດ</td>
-        <td rowspan="3" style="width:250px !important;">​ກະ​ຊວງ</td>
+        <td rowspan="3" style="width:250px !important;">ຊື່​ກະ​ຊວງ, ອົງ​ກ່ອນ​ທຽບ​ເທົ່າ​ກະ​ຊວງ</td>
         <td colspan="3" rowspan="2">​ລວມ​ທັງ​ໝົດ</td>
         <td colspan="6">​ປະ​ລີນ​ຍາ​ເອກ</td>
         <td colspan="6">ປະ​ລີນ​ຍາ​ໂທ</td>
@@ -99,63 +105,524 @@ if (!empty($model->year)) {
     <tr>
         <td>&nbsp;</td>
         <td>ລວ​ມ</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>
+        <?php
+        $total=0;
+        foreach($minstrys as $minstry)
+        {
+           $total+= $minstry->phd_male_in+
+            $minstry->phd_male_out+
+            $minstry->master_male_in+
+            $minstry->master_male_out+
+            $minstry->bachelor_degree_male_in+
+            $minstry->bachelor_degree_male_out+
+            $minstry->bachelor_male_in+
+            $minstry->bachelor_male_out+
+            $minstry->middle_diploma_male_in+
+            $minstry->middle_diploma_male_out+
+            $minstry->lower_diploma_male_in+
+            $minstry->lower_diploma_male_out+
+            $minstry->phd_female_in+
+            $minstry->phd_female_out+
+            $minstry->master_female_in+
+            $minstry->master_female_out+
+            $minstry->bachelor_degree_female_in+
+            $minstry->bachelor_degree_female_out+
+            $minstry->bachelor_female_in+
+            $minstry->bachelor_female_out+
+            $minstry->middle_diploma_female_in+
+            $minstry->middle_diploma_female_out+
+            $minstry->lower_diploma_female_in+
+            $minstry->lower_diploma_female_out;
+        }
+        echo $total;
+        ?>        
+        </td>
+        <td>
+        <?php
+            $total_male=0;
+            foreach($minstrys as $minstry)
+            {
+                $total_male+=$minstry->phd_male_in+
+                $minstry->phd_male_out+
+                $minstry->master_male_in+
+                $minstry->master_male_out+
+                $minstry->bachelor_degree_male_in+
+                $minstry->bachelor_degree_male_out+
+                $minstry->bachelor_male_in+
+                $minstry->bachelor_male_out+
+                $minstry->middle_diploma_male_in+
+                $minstry->middle_diploma_male_out+
+                $minstry->lower_diploma_male_in+
+                $minstry->lower_diploma_male_out;
+            }
+            echo $total_male;
+        ?>
+        </td>
+        <td>
+        <?php
+            $total_felmale=0;
+            foreach($minstrys as $minstry)
+            {
+                $total_felmale+=$minstry->phd_female_in+
+                $minstry->phd_female_out+
+                $minstry->master_female_in+
+                $minstry->master_female_out+
+                $minstry->bachelor_degree_female_in+
+                $minstry->bachelor_degree_female_out+
+                $minstry->bachelor_female_in+
+                $minstry->bachelor_female_out+
+                $minstry->middle_diploma_female_in+
+                $minstry->middle_diploma_female_out+
+                $minstry->lower_diploma_female_in+
+                $minstry->lower_diploma_female_out;
+            }
+            echo $total_felmale;
+        ?>
+        </td>
+        <td>
+            <?php
+                $total_phd_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_in+=$minstry->phd_male_in+
+                    $minstry->phd_female_in;
+                }
+                echo $total_phd_in;
+            ?>
+        </td>
+        <td>
+            <?php
+                $total_phd_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_male_in+=$minstry->phd_male_in;
+                }
+                echo $total_phd_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_phd_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_female_in+=$minstry->phd_female_in;
+                }
+                echo $total_phd_female_in;
+            ?>
+        </td>
+        
+        <td>
+            <?php
+                $total_phd_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_out+=$minstry->phd_male_out+
+                    $minstry->phd_female_out;
+                }
+                echo $total_phd_out;
+            ?>
+        </td>
+        <td>
+            <?php
+                $total_phd_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_male_out+=$minstry->phd_male_out;
+                }
+                echo $total_phd_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_phd_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_phd_female_out+=$minstry->phd_female_out;
+                }
+                echo $total_phd_female_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_in+=$minstry->master_male_in+
+                    $minstry->master_female_in;
+                }
+                echo $total_master_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_male_in+=$minstry->master_male_in;
+                }
+                echo $total_master_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_female_in+=$minstry->master_female_in;
+                }
+                echo $total_master_female_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_out+=$minstry->master_male_out+
+                    $minstry->master_female_out;
+                }
+                echo $total_master_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_male_out+=$minstry->master_male_out;
+                }
+                echo $total_master_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_master_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_master_female_out+=$minstry->master_female_out;
+                }
+                echo $total_master_female_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_degree_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_in+=$minstry->bachelor_degree_male_in+
+                    $minstry->bachelor_degree_female_in;
+                }
+                echo $total_bachelor_degree_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_degree_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_male_in+=$minstry->bachelor_degree_male_in;
+                }
+                echo $total_bachelor_degree_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_degree_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_female_in+=$minstry->bachelor_degree_female_in;
+                }
+                echo $total_bachelor_degree_female_in;
+            ?>
+        </td>
+        
+        <td>
+        <?php
+                $total_bachelor_degree_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_out+=$minstry->bachelor_degree_male_out+
+                    $minstry->bachelor_degree_female_out;
+                }
+                echo $total_bachelor_degree_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_degree_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_male_out+=$minstry->bachelor_degree_male_out;
+                }
+                echo $total_bachelor_degree_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_degree_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_degree_female_out+=$minstry->bachelor_degree_female_out;
+                }
+                echo $total_bachelor_degree_female_out;
+            ?>
+        </td>
+        
+
+        <td>
+        <?php
+                $total_bachelor_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_in+=$minstry->bachelor_male_in+
+                    $minstry->bachelor_female_in;
+                }
+                echo $total_bachelor_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_male_in+=$minstry->bachelor_male_in;
+                }
+                echo $total_bachelor_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_female_in+=$minstry->bachelor_female_in;
+                }
+                echo $total_bachelor_female_in;
+            ?>
+        </td>
+        
+        <td>
+        <?php
+                $total_bachelor_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_out+=$minstry->bachelor_male_out+
+                    $minstry->bachelor_female_out;
+                }
+                echo $total_bachelor_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_male_out+=$minstry->bachelor_male_out;
+                }
+                echo $total_bachelor_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_bachelor_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_bachelor_female_out+=$minstry->bachelor_female_out;
+                }
+                echo $total_bachelor_female_out;
+            ?>
+        </td>
+
+        <td>
+        <?php
+                $total_middle_bachelor_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_in+=$minstry->middle_diploma_male_in+
+                    $minstry->middle_diploma_female_in;
+                }
+                echo $total_middle_bachelor_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_middle_bachelor_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_male_in+=$minstry->middle_diploma_male_in;
+                }
+                echo $total_middle_bachelor_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_middle_bachelor_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_female_in+=$minstry->middle_diploma_female_in;
+                }
+                echo $total_middle_bachelor_female_in;
+            ?>
+        </td>
+
+        <td>
+        <?php
+                $total_middle_bachelor_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_out+=$minstry->middle_diploma_male_out+
+                    $minstry->middle_diploma_female_out;
+                }
+                echo $total_middle_bachelor_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_middle_bachelor_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_male_out+=$minstry->middle_diploma_male_out;
+                }
+                echo $total_middle_bachelor_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_middle_bachelor_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_middle_bachelor_female_out+=$minstry->middle_diploma_female_out;
+                }
+                echo $total_middle_bachelor_female_out;
+            ?>
+        </td>
+
+
+       <td>
+        <?php
+                $total_lower_bachelor_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_in+=$minstry->lower_diploma_male_in+
+                    $minstry->lower_diploma_female_in;
+                }
+                echo $total_lower_bachelor_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_lower_bachelor_male_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_male_in+=$minstry->lower_diploma_male_in;
+                }
+                echo $total_lower_bachelor_male_in;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_lower_bachelor_female_in=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_female_in+=$minstry->lower_diploma_female_in;
+                }
+                echo $total_lower_bachelor_female_in;
+            ?>
+        </td>
+
+        <td>
+        <?php
+                $total_lower_bachelor_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_out+=$minstry->lower_diploma_male_out+
+                    $minstry->lower_diploma_female_out;
+                }
+                echo $total_lower_bachelor_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_lower_bachelor_male_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_male_out+=$minstry->lower_diploma_male_out;
+                }
+                echo $total_lower_bachelor_male_out;
+            ?>
+        </td>
+        <td>
+        <?php
+                $total_lower_bachelor_female_out=0;
+                foreach($minstrys as $minstry)
+                {
+                    $total_lower_bachelor_female_out+=$minstry->lower_diploma_female_out;
+                }
+                echo $total_lower_bachelor_female_out;
+            ?>
+        </td>
     </tr>
     <?php
-    $minstrys=EmployeeLevel::find()
-        ->joinWith('ministry', true)
-        ->where(['in', 'ministry_id', $model->ministry_id])
-        ->andWhere(['year'=>$model->year])
-       // ->orderBy('ministry_id ASC')
-        ->all();
         $i=0;
     foreach ($minstrys as $minstry) {
         $i++;
         ?>
     <tr>
         <td><?=$i?></td>
-        <td ><?=$minstry->ministry->name?></td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td style="white-space:nowrap;" ><?=$minstry->ministry->name?></td>
+        <td>
+        <?=$minstry->phd_male_in+
+        $minstry->phd_male_out+
+        $minstry->master_male_in+
+        $minstry->master_male_out+
+        $minstry->bachelor_degree_male_in+
+        $minstry->bachelor_degree_male_out+
+        $minstry->bachelor_male_in+
+        $minstry->bachelor_male_out+
+        $minstry->middle_diploma_male_in+
+        $minstry->middle_diploma_male_out+
+        $minstry->lower_diploma_male_in+
+        $minstry->lower_diploma_male_out+
+        $minstry->phd_female_in+
+        $minstry->phd_female_out+
+        $minstry->master_female_in+
+        $minstry->master_female_out+
+        $minstry->bachelor_degree_female_in+
+        $minstry->bachelor_degree_female_out+
+        $minstry->bachelor_female_in+
+        $minstry->bachelor_female_out+
+        $minstry->middle_diploma_female_in+
+        $minstry->middle_diploma_female_out+
+        $minstry->lower_diploma_female_in+
+        $minstry->lower_diploma_female_out
+        ?>
+        </td>
+        <td><?=$minstry->phd_male_in+
+        $minstry->phd_male_out+
+        $minstry->master_male_in+
+        $minstry->master_male_out+
+        $minstry->bachelor_degree_male_in+
+        $minstry->bachelor_degree_male_out+
+        $minstry->bachelor_male_in+
+        $minstry->bachelor_male_out+
+        $minstry->middle_diploma_male_in+
+        $minstry->middle_diploma_male_out+
+        $minstry->lower_diploma_male_in+
+        $minstry->lower_diploma_male_out?>
+        </td>
+        <td><?=$minstry->phd_female_in+
+        $minstry->phd_female_out+
+        $minstry->master_female_in+
+        $minstry->master_female_out+
+        $minstry->bachelor_degree_female_in+
+        $minstry->bachelor_degree_female_out+
+        $minstry->bachelor_female_in+
+        $minstry->bachelor_female_out+
+        $minstry->middle_diploma_female_in+
+        $minstry->middle_diploma_female_out+
+        $minstry->lower_diploma_female_in+
+        $minstry->lower_diploma_female_out?></td>
 
         <td><?=$minstry->phd_male_in+$minstry->phd_female_in?></td>
         <td><?=$minstry->phd_male_in?></td>
@@ -175,11 +642,11 @@ if (!empty($model->year)) {
 
         <td><?=$minstry->bachelor_degree_male_in+$minstry->bachelor_degree_female_in?></td>
         <td><?=$minstry->bachelor_degree_male_in?></td>
-        <td><?=$minstry->bachelor_degree_male_in?></td>
+        <td><?=$minstry->bachelor_degree_female_in?></td>
 
         <td><?=$minstry->bachelor_degree_male_out+$minstry->bachelor_degree_female_out?></td>
         <td><?=$minstry->bachelor_degree_male_out?></td>
-        <td><?=$minstry->bachelor_degree_male_out?></td>
+        <td><?=$minstry->bachelor_degree_female_out?></td>
 
         <td><?=$minstry->bachelor_male_in+$minstry->bachelor_female_in?></td>
         <td><?=$minstry->bachelor_male_in?></td>
