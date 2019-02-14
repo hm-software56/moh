@@ -48,26 +48,46 @@ $this->params['breadcrumbs'][] = $this->title;
             <th><?=$model->getAttributeLabel('payment_end_year')?></th>
             <td><?=$model->payment_end_year?></td>
         </tr>
+        <tr>
+            <th><?=$model->getAttributeLabel('govt_budget')?></th>
+            <td><?=$model->govt_budget?></td>
+            <th><?=$model->getAttributeLabel('approved_govt_budget')?></th>
+            <td><?=$model->approved_govt_budget?></td>
+            <th><?=$model->getAttributeLabel('approved_govt_budget')?></th>
+            <td><?=$model->approved_govt_budget?></td>
+            <th><?=$model->getAttributeLabel('oda_budget')?></th>
+            <td><?=$model->oda_budget?></td>
+        </tr>
+        <tr>
+            <th><?=$model->getAttributeLabel('approved')?></th>
+            <td><?=$model->approved?></td>
+            <th><?=$model->getAttributeLabel('is_oda')?></th>
+            <td><?=$model->is_oda?></td>
+            <th><?=$model->getAttributeLabel('evaluation_at_plan')?></th>
+            <td><?=$model->evaluation_at_plan?></td>
+            <th><?=$model->getAttributeLabel('final_evaluation')?></th>
+            <td><?=$model->final_evaluation?></td>
+        </tr>
     </table>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'project_name',
-            'sector_code',
-            'project_code',
-            'budget_code',
-            'project_start_year',
-            'project_end_year',
-            'payment_start_year',
-            'payment_end_year',
-            'project_type_id',
-            'govt_budget',
-            'approved_govt_budget',
-            'oda_budget',
-            'approved',
-            'is_oda',
-            'evaluation_at_plan',
-            'final_evaluation',
+           // 'project_name',
+          //  'sector_code',
+           // 'project_code',
+           // 'budget_code',
+           // 'project_start_year',
+          //  'project_end_year',
+         //   'payment_start_year',
+          //  'payment_end_year',
+          //  'project_type_id',
+           // 'govt_budget',
+          //  'approved_govt_budget',
+          //  'oda_budget',
+          //  'approved',
+           // 'is_oda',
+          //  'evaluation_at_plan',
+           // 'final_evaluation',
         ],
     ]) ?>
 

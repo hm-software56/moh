@@ -28,6 +28,7 @@ class Project extends BaseProject
             
             [
                 [['govt_budget', 'oda_budget'], 'string'],
+                [['sector_code','project_code','budget_code'],'default','value' => NULL],
                 # custom validation rules
             ],
             parent::rules()
@@ -66,4 +67,20 @@ class Project extends BaseProject
         }
         return false;
     }
+
+  /*  public function beforeSave($insert)
+    {
+        if(empty($this->sector_code))
+        {
+            $this->sector_code='NULL';
+        }
+        if(empty($this->project_code))
+        {
+            $this->project_code='NULL';
+        }
+        if(empty($this->budget_code))
+        {
+            $this->budget_code='NULL';
+        }
+    }*/
 }

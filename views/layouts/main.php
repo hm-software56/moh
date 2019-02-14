@@ -38,6 +38,7 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => (Yii::$app->user->id)?[
+        ['label' => Yii::t('app', 'ໂຄງການ'),'url' => ['project/index']],
         ['label' => Yii::t('app', 'ປ້ອນບົດສະເໜີໂຄງການ'),'url' => ['project-proposal-year/index']],
         ['label' => Yii::t('app', 'ລາຍ​ງານ'),
             'items' => [
@@ -52,6 +53,8 @@ echo Nav::widget([
                 ['label' => 'ບໍ​ລິ​ຫານ​ກົມ', 'url' => ['department/index']],
                 ['label' => 'ບໍລິ​ຫານ​ຜູ້​ໃຊ້​ລະ​ບົບ', 'url' => ['user/index']],
                 ['label' => 'ກຳ​ນົດ​ວັນ​ທີ່​ສົ່ງ​ບົດ​ໂຄງ​ການ', 'url' => ['submittion-dead-line/index']],
+                ['label' => 'ບໍລິ​ຫານປະ​ເພດ​ໂຄງ​ການ', 'url' => ['project-type/index']],
+                ['label' => 'ບໍລິ​ຫານສະ​ຖາ​ນະໂຄງ​ການ', 'url' => ['project-status/index']],
             ],
             
         ]:'',

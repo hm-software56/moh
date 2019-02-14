@@ -24,7 +24,8 @@
         "kartik-v/yii2-export": "dev-master",
         "yii2tech/csv-grid": "^1.0",
         "kartik-v/yii2-widget-select2": "@dev",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

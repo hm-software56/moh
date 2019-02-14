@@ -63,7 +63,7 @@ abstract class Project extends \yii\db\ActiveRecord
             [['project_name', 'project_start_year', 'project_end_year', 'payment_start_year', 'payment_end_year', 'project_type_id'], 'required'],
             [['project_start_year', 'project_end_year', 'payment_start_year', 'payment_end_year'], 'safe'],
             [['project_type_id', 'approved', 'is_oda'], 'integer'],
-            [['approved_govt_budget'], 'number'],
+            [['govt_budget', 'approved_govt_budget', 'oda_budget'], 'number'],
             [['evaluation_at_plan'], 'string'],
             [['project_name'], 'string', 'max' => 255],
             [['sector_code', 'project_code', 'budget_code', 'final_evaluation'], 'string', 'max' => 45],
