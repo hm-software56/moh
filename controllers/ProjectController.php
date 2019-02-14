@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\ProjectProgression;
+use app\models\ProjectPayment;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -65,9 +66,20 @@ class ProjectController extends Controller
      */
     public function actionCreate()
     {
+        unset(Yii::$app->session['project_id']);
+        unset( \Yii::$app->session['project_progress_save']);
         $model = new Project();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->govt_budget), 0, -2);
+            $model->oda_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->oda_budget), 0, -2);
+            $model->approved_govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->approved_govt_budget), 0, -2);
+           
+            if($model->save())
+            {
+                $projectprogress=\Yii::$app->session['project_progress'];
+                $projectprogress->project_id=$model->id;
+                $projectprogress->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -85,12 +97,17 @@ class ProjectController extends Controller
      */
     public function actionUpdate($id)
     {
+        unset(\Yii::$app->session['project_progress']);
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        Yii::$app->session['project_id']=$id;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->govt_budget), 0, -2);
+            $model->oda_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->oda_budget), 0, -2);
+            $model->approved_govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->approved_govt_budget), 0, -2);
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        \Yii::$app->session['project_progress_save']=ProjectProgression::find()->where(['project_id'=>$id])->orderBy('project_year DESC')->all();
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -128,24 +145,79 @@ class ProjectController extends Controller
 
     public function actionProjectprocesscreate()
     {
-        $model=new ProjectProgression();
+        if(!empty($_GET['progress_id']))
+        {
+            $progress_id=$_GET['progress_id'];
+            $model=ProjectProgression::find()->where(['id'=>(int)$_GET['progress_id']])->one();
+        }else{
+            $progress_id=NULL;
+            $model=new ProjectProgression();
+        }
+
         if (isset($_POST['year'])) {
             $model->proposal_amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount_proposal']), 0, -2);
             $model->aproved_amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount_approved']), 0, -2);
             $model->project_status_id=$_POST['status'];
             $model->project_year=$_POST['year'];
-            if($_POST['project_id']!=NULL)
+            if(!empty(Yii::$app->session['project_id']))
             {
                 unset(\Yii::$app->session['project_progress']);
                 $model->project_id=(int)$_POST['project_id'];
                 $model->save();
-                \Yii::$app->session['project_progress_save']=ProjectProgression::find()->where(['project_id'=>$model->project_id])->all();
+                \Yii::$app->session['project_progress_save']=ProjectProgression::find()->where(['project_id'=>$model->project_id])->orderBy('project_year DESC')->all();
             }else{
                 \Yii::$app->session['project_progress']=$model;
             }
             return $this->renderAjax('list_project_progess');
         }else{
-            return $this->renderAjax('form_project_process', ['model'=>$model]);
+            if(!empty(\Yii::$app->session['project_progress']))
+            {
+                $model=\Yii::$app->session['project_progress'];
+            }
+            return $this->renderAjax('form_project_process', ['model'=>$model,'progress_id'=>$progress_id]);
         }
+    }
+
+    public function actionDelprojectprogress($id,$project_id)
+    {
+        if(isset($_GET['dels']))
+        {
+            unset(\Yii::$app->session['project_progress']);
+        }else{
+            $model=ProjectProgression::find()->where(['id'=>$id])->one();
+            $model->delete();
+            \Yii::$app->session['project_progress_save']=ProjectProgression::find()->where(['project_id'=>$project_id])->orderBy('project_year DESC')->all();
+        }
+         return $this->renderAjax('list_project_progess');
+    }
+
+    public function actionProjectpay()
+    {
+        if(isset($_GET['progress_id'])&& isset($_GET['timespay']))
+        {
+            Yii::$app->session['progress_id']=$_GET['progress_id'];
+            Yii::$app->session['timespay']=$_GET['timespay'];
+        }
+        if(Yii::$app->session['timespay']==1)
+        {
+            $type='first_six_months';
+        }else{
+            $type='full_year';
+        }
+        $model=ProjectPayment::find()->where(['project_progression_id'=>Yii::$app->session['progress_id'],'payment_type'=>$type])->one();
+        if (empty($model)) {
+            $model=new ProjectPayment;
+        }
+        $projectprogress=ProjectProgression::find()->where(['id'=>(int)$_GET['progress_id']])->one();
+        if(isset($_POST['amount']))
+        {
+            $model->amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount']), 0, -2);
+            $model->is_oda=$_POST['is_oda'];
+            $model->payment_type=$type;
+            $model->project_progression_id=Yii::$app->session['progress_id'];
+            $model->save();
+            return $this->renderAjax('list_project_progess');
+        }
+        return $this->renderAjax('form_project_payment', ['projectprogress'=>$projectprogress,'model'=>$model,'timespay'=>$_GET['timespay']]);
     }
 }

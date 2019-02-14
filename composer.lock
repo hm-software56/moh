@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31a20fc125b423dfb803eaf79e5db9ef",
+    "content-hash": "fb22c5f46afc951adca4862cf1e03574",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -248,6 +248,44 @@
             "description": "PHP code formatter",
             "homepage": "https://github.com/cmrcx/phptidy",
             "time": "2018-01-02T21:17:57+00:00"
+        },
+        {
+            "name": "components/flag-icon-css",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lipis/flag-icon-css.git",
+                "reference": "dcf77c57d0a98d4474356408f33571bbbec37961"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lipis/flag-icon-css/zipball/dcf77c57d0a98d4474356408f33571bbbec37961",
+                "reference": "dcf77c57d0a98d4474356408f33571bbbec37961",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "name": "flag-icon-css",
+                    "files": [
+                        "less/**",
+                        "css/**",
+                        "flags/**"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Panayiotis Lipiridis (Lipis)",
+                    "email": "lipiridis@gmail.com"
+                }
+            ],
+            "description": "CSS for vector based country flags",
+            "time": "2018-10-19T18:08:15+00:00"
         },
         {
             "name": "composer/semver",
@@ -1022,6 +1060,58 @@
                 "yii2"
             ],
             "time": "2018-12-07T12:28:30+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-icons",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-icons.git",
+                "reference": "70d287c3364b0cb9a34ed70fc69bd438a2e5bb8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-icons/zipball/70d287c3364b0cb9a34ed70fc69bd438a2e5bb8e",
+                "reference": "70d287c3364b0cb9a34ed70fc69bd438a2e5bb8e",
+                "shasum": ""
+            },
+            "require": {
+                "components/flag-icon-css": "*",
+                "kartik-v/yii2-krajee-base": ">=1.9",
+                "yiisoft/yii2-jui": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\icons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://demos.krajee.com/"
+                }
+            ],
+            "description": "Set of icon frameworks for use in Yii Framework 2.0",
+            "homepage": "https://github.com/kartik-v/yii2-icons",
+            "keywords": [
+                "extension",
+                "font",
+                "icon",
+                "yii",
+                "yii2"
+            ],
+            "time": "2018-11-05T11:57:39+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -5713,7 +5803,8 @@
         "schmunk42/yii2-giiant": 0,
         "kartik-v/yii2-widget-fileinput": 20,
         "kartik-v/yii2-export": 20,
-        "kartik-v/yii2-widget-select2": 20
+        "kartik-v/yii2-widget-select2": 20,
+        "kartik-v/yii2-icons": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

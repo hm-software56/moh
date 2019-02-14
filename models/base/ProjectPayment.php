@@ -44,7 +44,7 @@ abstract class ProjectPayment extends \yii\db\ActiveRecord
     {
         return [
             [['amount', 'payment_type', 'project_progression_id'], 'required'],
-            [['amount'], 'number'],
+            [['amount'], 'string'],
             [['payment_type'], 'string'],
             [['is_oda', 'project_progression_id'], 'integer'],
             [['project_progression_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ProjectProgression::className(), 'targetAttribute' => ['project_progression_id' => 'id']],

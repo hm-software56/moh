@@ -68,19 +68,10 @@ class Project extends BaseProject
         return false;
     }
 
-  /*  public function beforeSave($insert)
+    public function afterFind()
     {
-        if(empty($this->sector_code))
-        {
-            $this->sector_code='NULL';
-        }
-        if(empty($this->project_code))
-        {
-            $this->project_code='NULL';
-        }
-        if(empty($this->budget_code))
-        {
-            $this->budget_code='NULL';
-        }
-    }*/
+        $this->govt_budget=number_format($this->govt_budget,2);
+        $this->approved_govt_budget=number_format($this->approved_govt_budget,2);
+        $this->oda_budget=number_format($this->oda_budget,2);
+    }
 }

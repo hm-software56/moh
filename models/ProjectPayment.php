@@ -31,4 +31,22 @@ class ProjectPayment extends BaseProjectPayment
             ]
         );
     }
+
+    public function attributeLabels()
+    {
+        return ArrayHelper::merge(
+            
+            [
+                'id' => Yii::t('models', 'ລະ​ຫັດ'),
+                'is_oda' => Yii::t('models', '​ເປັ​ນ ODA'),
+                'amount' => Yii::t('models', 'ຈຳ​ນວນ​ເງີນ​ຊຳ​ລະ'),
+            ],
+            parent::rules()
+        );
+    }
+
+    public function afterFind()
+    {
+        $this->amount=\number_format($this->amount,2);
+    }
 }

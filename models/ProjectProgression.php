@@ -50,4 +50,9 @@ class ProjectProgression extends BaseProjectProgression
             parent::rules()
         );
     }
+    public function afterFind()
+    {
+        $this->aproved_amount=number_format($this->aproved_amount,2);
+        $this->proposal_amount=number_format($this->proposal_amount,2);
+    }
 }

@@ -22,21 +22,33 @@ $this->registerJs($script);
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><?=Yii::t('app','​ປ້ອນ​ລາຍ​ລະ​ອຽດ')?></h4>
+                    <?php
+                        if($timespay==1){
+                            ?>
+                    <h4 class="modal-title">
+                        <b><?=Yii::t('app','​​ຊຳລະ​ເງີນ 6 ​ຕົ້ນ​ປີ').": ".$projectprogress->project_year?></b></h4>
+                    <?php
+                        }else{
+                            ?>
+                    <h4 class="modal-title">
+                        <b><?=Yii::t('app','​ຊຳ​ລະ​ເງີນ 6 ​ທ້າຍ​ປີ').": ".$projectprogress->project_year?></b></h4>
+                    <?php
+                        }
+                    ?>
+
                 </div>
                 <div class="modal-body">
                     <?php $form = ActiveForm::begin(['id' => 'process-form']); ?>
-                    <?= $form->field($model, 'project_year')->textInput(['maxlength' => true]) ?>
                     <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'proposal_amount')->textInput(['maxlength' => true,'class'=>"form-control money_format"]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'aproved_amount')->textInput(['maxlength' => true,'class'=>"form-control money_format"]) ?>
+                        <div class="col-md-12">
+                            <?= $form->field($model, 'amount')->textInput(['maxlength' => true,'class'=>"form-control money_format"]) ?>
                         </div>
                     </div>
-                    <?= $form->field($model, 'project_status_id')->dropDownList(ArrayHelper::map(ProjectStatus::find()->all(),'id','project_status'),['prompt'=>'']) ?>
-                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?= $form->field($model, 'is_oda')->dropDownList([0=>'No',1=>'Yes']) ?>
+                        </div>
+                    </div>
                     <?php ActiveForm::end(); ?>
                 </div>
                 <div class="modal-footer">
@@ -46,13 +58,10 @@ $this->registerJs($script);
                             $.ajax({
                             type     :'POST',
                             cache    : false,
-                            url  : 'index.php?r=project/projectprocesscreate&progress_id=".$progress_id."',
+                            url  : 'index.php?r=project/projectpay',
                             data: {
-                                year: $('#projectprogression-project_year').val(),
-                                amount_proposal: $('#projectprogression-proposal_amount').val(),
-                                amount_approved: $('#projectprogression-aproved_amount').val(),
-                                status: $('#projectprogression-project_status_id').val(),
-                                project_id:'".Yii::$app->session['project_id']."',
+                                is_oda: $('#projectpayment-is_oda').val(),
+                                amount: $('#projectpayment-amount').val(),
                             },
                             success  : function(response) {
                             $('#list_pt').html(response);

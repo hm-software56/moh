@@ -47,13 +47,13 @@ use app\models\ProjectType;
     </div>
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, 'govt_budget')->textInput(['class'=>'form-control money_format']) ?>
+            <?= $form->field($model, 'govt_budget',['enableClientValidation' => false])->textInput(['class'=>'form-control money_format']) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'approved_govt_budget')->dropDownList([1=>Yii::t('app', 'ອະ​ນຸ​ມັດ'),0=>Yii::t('app', 'ບໍ່ອະ​ນຸ​ມັດ')], ['prompt'=>'']) ?>
+            <?= $form->field($model, 'approved_govt_budget',['enableClientValidation' => false])->textInput(['class'=>'form-control money_format']) ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'oda_budget')->textInput(['class'=>'form-control money_format']) ?>
+            <?= $form->field($model, 'oda_budget',['enableClientValidation' => false])->textInput(['class'=>'form-control money_format']) ?>
         </div>
 
         <div class="col-md-3">
