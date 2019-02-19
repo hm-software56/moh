@@ -6,7 +6,7 @@ use app\models\ProjectPayment;
     <div class="col-md-12">
         <div class="contacts table-responsive">
             <label >
-<?=Yii::t('app', 'ລາຍ​ການແຜ່ນ​ແລະ​ການ​ສຳ​ລະ/ລ້ານ​ກີບ')?></label>
+<?=Yii::t('app', 'ລາຍ​ການແຜ່ນ​ແລະ​ການ​ຊຳ​ລະ (​ຫົວ​ໜ່ວຍ: ລ້ານ​ກີບ)')?></label>
             <table class="table table-bordered table-dark tab-content">
                 <tr style="background:#eff5f5">
                     <th><?=Yii::t('app', 'ປີ')?></th>

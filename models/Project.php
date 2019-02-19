@@ -27,7 +27,7 @@ class Project extends BaseProject
         return ArrayHelper::merge(
             
             [
-                [['govt_budget', 'oda_budget'], 'string'],
+               // [['govt_budget', 'oda_budget'], 'string'],
                 [['sector_code','project_code','budget_code'],'default','value' => NULL],
                 # custom validation rules
             ],
@@ -48,7 +48,7 @@ class Project extends BaseProject
                 'payment_end_year' => Yii::t('models', 'ປີ​ສີ້ນ​ສຸດ​ຈ່າຍ​ເງີນ'),
                 'project_type_id' => Yii::t('models', 'ປະ​ເພດ​ໂຄງ​ການ'),
                 'govt_budget' => Yii::t('models', 'ງົບ​ປະ​ມານ​ຂອງ​ລັດ/​ລ້ານ​ກີບ'),
-                'approved_govt_budget' => Yii::t('models', 'ອະ​ນຸ​ມັດ​ງົບ​ປະ​ມານ​ລັດ'),
+                'approved_govt_budget' => Yii::t('models', 'ອະ​ນຸ​ມັດ​ງົບ​ປະ​ມານ​ລັດ/​ລ້ານ​ກີບ'),
                 'oda_budget' => Yii::t('models', 'ງົບ​ປະ​ມານ​ຂອງ ODA/​ລ້ານ​ກີບ'),
                 'approved' => Yii::t('models', 'ອະ​ນຸ​ມັດ'),
                 'is_oda' => Yii::t('models', 'ເປັນ ODA'),

@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="project-create">
     <?= $this->render('_form', [
         'model' => $model,
+        'loan'=>$loan
     ]) ?>
 
 </div>

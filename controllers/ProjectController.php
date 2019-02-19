@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\ProjectProgression;
 use app\models\ProjectPayment;
+use app\models\Loan;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -54,8 +55,11 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
+        $model=$this->findModel($id);
+        $projectprogress=ProjectProgression::find()->where(['project_id'=>$id])->orderBy('project_year DESC')->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' =>$model,
+            'projectprogress'=>$projectprogress
         ]);
     }
 
@@ -69,22 +73,39 @@ class ProjectController extends Controller
         unset(Yii::$app->session['project_id']);
         unset( \Yii::$app->session['project_progress_save']);
         $model = new Project();
+        $loan=new Loan();
         if ($model->load(Yii::$app->request->post())) {
-            $model->govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->govt_budget), 0, -2);
-            $model->oda_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->oda_budget), 0, -2);
-            $model->approved_govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->approved_govt_budget), 0, -2);
-           
+            if (!empty($model->govt_budget)) {
+                $model->govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $model->govt_budget), 0, -2);
+            }
+            if (!empty($model->oda_budget)) {
+                $model->oda_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $model->oda_budget), 0, -2);
+            }
+            if (!empty($model->approved_govt_budget)) {
+                $model->approved_govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $model->approved_govt_budget), 0, -2);
+            }
             if($model->save())
             {
-                $projectprogress=\Yii::$app->session['project_progress'];
-                $projectprogress->project_id=$model->id;
-                $projectprogress->save();
+                if (!empty(\Yii::$app->session['project_progress'])) {
+                    $projectprogress=\Yii::$app->session['project_progress'];
+                    $projectprogress->project_id=$model->id;
+                    $projectprogress->save();
+                }
+                if (Yii::$app->request->post()['Loan']['project_id']==1) {
+                    $loan->load(Yii::$app->request->post());
+                    $loan->project_id=$model->id;
+                    $loan->amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$loan->amount), 0, -2);
+                    $loan->save();
+                    //print_r($loan->getErrors());exit;
+                }
+                
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'loan'=>$loan
         ]);
     }
 
@@ -99,17 +120,36 @@ class ProjectController extends Controller
     {
         unset(\Yii::$app->session['project_progress']);
         $model = $this->findModel($id);
+        $loan=Loan::find()->where(['project_id'=>$id])->one();
+        if(empty($loan))
+        {
+            $loan=new Loan();
+        }else{
+            $loan->project_id=1; /// set 1 is using teck checkbox
+        }
         Yii::$app->session['project_id']=$id;
         if ($model->load(Yii::$app->request->post())) {
             $model->govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->govt_budget), 0, -2);
             $model->oda_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->oda_budget), 0, -2);
             $model->approved_govt_budget=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$model->approved_govt_budget), 0, -2);
-            $model->save();
+            if($model->save()){
+                if (Yii::$app->request->post()['Loan']['project_id']==1) {
+                    $loan->load(Yii::$app->request->post());
+                    $loan->project_id=$model->id;
+                    $loan->amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '',$loan->amount), 0, -2);
+                    $loan->save();
+                    //print_r($loan->getErrors());exit;
+                }else{
+                    $loan->delete();
+                }
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
         \Yii::$app->session['project_progress_save']=ProjectProgression::find()->where(['project_id'=>$id])->orderBy('project_year DESC')->all();
         return $this->render('update', [
             'model' => $model,
+            'loan'=>$loan
         ]);
     }
 

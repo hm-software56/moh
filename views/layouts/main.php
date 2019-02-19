@@ -52,10 +52,16 @@ echo Nav::widget([
         (Yii::$app->user->identity->type=="Admin")?['label' => Yii::t('app', 'ຕັ້ງ​ຄ່າ'),
             'items' => [
                 ['label' => 'ບໍ​ລິ​ຫານ​ກົມ', 'url' => ['department/index']],
+                '<li class="divider"></li>',
                 ['label' => 'ບໍລິ​ຫານ​ຜູ້​ໃຊ້​ລະ​ບົບ', 'url' => ['user/index']],
+                '<li class="divider"></li>',
                 ['label' => 'ກຳ​ນົດ​ວັນ​ທີ່​ສົ່ງ​ບົດ​ໂຄງ​ການ', 'url' => ['submittion-dead-line/index']],
+                '<li class="divider"></li>',
                 ['label' => 'ບໍລິ​ຫານປະ​ເພດ​ໂຄງ​ການ', 'url' => ['project-type/index']],
+                '<li class="divider"></li>',
                 ['label' => 'ບໍລິ​ຫານສະ​ຖາ​ນະໂຄງ​ການ', 'url' => ['project-status/index']],
+                '<li class="divider"></li>',
+                ['label' => 'ບໍລິ​ຫານກຸ່ມ​ປະ​ເພດ​ໂຄງ​ການ', 'url' => ['group-project-type/index']],
             ],
             
         ]:'',
