@@ -15,6 +15,7 @@ use Yii;
  * @property string $project_status_id
  * @property double $aproved_amount
  * @property double $proposal_amount
+ * @property double $aproved_amount_oda
  *
  * @property \app\models\ProjectPayment[] $projectPayments
  * @property \app\models\Project $project
@@ -40,10 +41,10 @@ abstract class ProjectProgression extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_id', 'project_year', 'project_status_id'], 'required'],
+            [['project_id', 'project_year', 'project_status_id', 'proposal_amount'], 'required'],
             [['project_id', 'project_status_id'], 'integer'],
             [['project_year'], 'safe'],
-           
+            [['aproved_amount', 'proposal_amount', 'aproved_amount_oda'], 'number'],
             [['project_id', 'project_year'], 'unique', 'targetAttribute' => ['project_id', 'project_year']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Project::className(), 'targetAttribute' => ['project_id' => 'id']],
             [['project_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ProjectStatus::className(), 'targetAttribute' => ['project_status_id' => 'id']]
@@ -62,6 +63,7 @@ abstract class ProjectProgression extends \yii\db\ActiveRecord
             'project_status_id' => Yii::t('models', 'Project Status ID'),
             'aproved_amount' => Yii::t('models', 'Aproved Amount'),
             'proposal_amount' => Yii::t('models', 'Proposal Amount'),
+            'aproved_amount_oda' => Yii::t('models', 'Aproved Amount Oda'),
         ];
     }
 

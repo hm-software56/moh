@@ -46,6 +46,7 @@ class ProjectProgression extends BaseProjectProgression
                 'project_status_id' => Yii::t('models', 'ສະ​ຖານ​ະ'),
                 'aproved_amount' => Yii::t('models', 'ຈຳ​ນວນ​ເງີນ​ອະ​ນຸ​ມັດ'),
                 'proposal_amount' => Yii::t('models', 'ຈຳນວນ​ເງີນສະ​ເໜີ'),
+                'aproved_amount_oda' => Yii::t('models', 'ຈຳ​ນວນ​ເງີນ​ອະ​ນຸ​ມັດ ODA'),
             ],
             parent::rules()
         );
@@ -54,5 +55,6 @@ class ProjectProgression extends BaseProjectProgression
     {
         $this->aproved_amount=number_format($this->aproved_amount,2);
         $this->proposal_amount=number_format($this->proposal_amount,2);
+        $this->aproved_amount_oda=number_format($this->aproved_amount_oda,2);
     }
 }

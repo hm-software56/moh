@@ -5,14 +5,21 @@ use app\models\ProjectPayment;
 <div class="row">
     <div class="col-md-12">
         <div class="contacts table-responsive">
-            <label >
-<?=Yii::t('app', 'ລາຍ​ການແຜ່ນ​ແລະ​ການ​ຊຳ​ລະ (​ຫົວ​ໜ່ວຍ: ລ້ານ​ກີບ)')?></label>
+            <label>
+                <?=Yii::t('app', 'ລາຍ​ການແຜ່ນ​ແລະ​ການ​ຊຳ​ລະ (​ຫົວ​ໜ່ວຍ: ລ້ານ​ກີບ)')?></label>
             <table class="table table-bordered table-dark tab-content">
                 <tr style="background:#eff5f5">
                     <th><?=Yii::t('app', 'ປີ')?></th>
                     <th><?=Yii::t('app', '​ສະ​ຖາ​ນະ')?></th>
                     <th><?=Yii::t('app', 'ຈໍານວນ​ເງີນສະເຫນີ')?></th>
                     <th><?=Yii::t('app', 'ຈໍານວນເງິນອະນຸມັດ')?></th>
+                    <?php
+                        if (!empty(Yii::$app->session['is_oda'])) {
+                            ?>
+                    <th><?=Yii::t('app', 'ຈໍານວນເງິນອະນຸມັດ oda')?></th>
+                    <?php
+                        }
+                    ?>
                     <th><?=Yii::t('app', 'ມູນ​ຄ່າ​​ຊຳລະ​ 6 ຕົ້ນ​ປີ')?></th>
                     <th><?=Yii::t('app', 'ມູນ​ຄ່າ​ຊຳລະ​ 6 ທ້າຍ​​ປີ')?></th>
                     <td align="right">
@@ -45,7 +52,7 @@ use app\models\ProjectPayment;
                     <td>0.00</td>
                     <td>0.00</td>
                     <td align="right">
-                    <?php
+                        <?php
                         echo yii\helpers\Html::a("<il class='glyphicon glyphicon-edit'></il>", '#', [
                             'onclick' => "
                                     $.ajax({
@@ -90,13 +97,20 @@ use app\models\ProjectPayment;
                     foreach(\Yii::$app->session['project_progress_save'] as $list)
                     {
                         ?>
-                        <tr>
-                            <td><?=$list->project_year?></td>
-                            <td><?=ProjectStatus::find()->where(['id'=>$list->project_status_id])->one()->project_status?></td>
-                            <td><?=$list->proposal_amount?></td>
-                            <td><?=$list->aproved_amount?></td>
-                            <td>
-                            <?php
+                <tr>
+                    <td><?=$list->project_year?></td>
+                    <td><?=ProjectStatus::find()->where(['id'=>$list->project_status_id])->one()->project_status?></td>
+                    <td><?=$list->proposal_amount?></td>
+                    <td><?=$list->aproved_amount?></td>
+                    <?php
+                        if (!empty(Yii::$app->session['is_oda'])) {
+                            ?>
+                    <td><?=$list->aproved_amount_oda?></td>
+                    <?php
+                        }
+                            ?>
+                    <td>
+                        <?php
                                  $model=ProjectPayment::find()->where(['project_progression_id'=>$list->id,'payment_type'=>'first_six_months'])->one();
                                 if(!empty($model) && $model->amount>0)
                                 {
@@ -118,9 +132,9 @@ use app\models\ProjectPayment;
                                    // 'id'=>'jobPop'
                                 ]); 
                             ?>
-                            </td>
-                            <td>
-                            <?php
+                    </td>
+                    <td>
+                        <?php
                                  $model=ProjectPayment::find()->where(['project_progression_id'=>$list->id,'payment_type'=>'full_year'])->one();
                                  if(!empty($model) && $model->amount>0)
                                  {
@@ -142,9 +156,9 @@ use app\models\ProjectPayment;
                                    // 'id'=>'jobPop'
                                 ]); 
                             ?>
-                            </td>
-                            <td align="right" class="">
-                            <?php
+                    </td>
+                    <td align="right" class="">
+                        <?php
                             echo yii\helpers\Html::a("<il class=' glyphicon glyphicon-edit' ></il>", '#', [
                                 'onclick' => "
                                         $.ajax({
@@ -180,9 +194,9 @@ use app\models\ProjectPayment;
                                 'class'=>'btn btn-danger btn-xs'
                             ]);
                              ?>
-                            </td>
-                        </tr>
-                        <?php
+                    </td>
+                </tr>
+                <?php
                     }
                 }
                 ?>
