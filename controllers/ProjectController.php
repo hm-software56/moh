@@ -298,7 +298,7 @@ class ProjectController extends Controller
             $model->amount=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount']), 0, -2);
             if ($model->amount==0) {
                 $model->amount=$postamount;
-            }
+            } 
 
             $model->is_oda=$_POST['is_oda'];
             $model->payment_type=$type;
@@ -312,6 +312,22 @@ class ProjectController extends Controller
     public function actionReportplan()
     {
         $this->layout="main_report";
+        if(isset($_POST['csv']) && isset($_POST['export']))
+        {
+            $name='​investment sheet_'.date('Y-m-d').'.xls';
+            header('Content-Type: application/force-download');
+            header('Content-disposition: attachment; filename='.$name.'');
+            // Fix for crappy IE bug in download.
+            header("Pragma: ");
+            header("Cache-Control: ");
+            return $_POST['csv'];
+        }
         return $this->render('reportplan');
+    }
+
+    public function actionReportsummary()
+    {
+        $this->layout="main_report";
+        return $this->render('reportsummary');
     }
 }

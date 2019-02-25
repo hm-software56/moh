@@ -43,7 +43,7 @@ echo Nav::widget([
         ['label' => Yii::t('app', 'ລາຍ​ງານ'),
             'items' => [
                 ['label' => 'ລາຍ​ງານບົດສະເໜີໂຄງການຂອງ​ກົມ', 'url' => ['project-proposal-year/reportexternal']],
-                ['label' => 'ລາຍ​ງານ​ສັງ​ລວມ​ກາ​ນ​ຍົກ​ລະ​ດັບ​ຂອງ​ກະ​ຊວງ', 'url' => ['employee-level/report']],
+                ['label' => 'ແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ', 'url' => ['project/reportplan']],
             ],
             
         ],
