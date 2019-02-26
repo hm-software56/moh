@@ -666,7 +666,7 @@ if(isset($_POST['year']) && !empty($_POST['year']))
                 <td>&nbsp;</td>
                 <td class="text-center" style=" white-space:nowrap !important;"><?=Yii::t('app', 'ລວມ​ທືນ​ທັງ​ໝົດ')?>
                 </td>
-                <td>
+                <td class="text-center">
                     <?php
                 $count_total_project_by_status=ProjectProgression::find()
                 ->joinWith(['project'])
