@@ -110,6 +110,14 @@ $loan=Loan::find()->where(['project_id'=>$model->id])->one();
                         <th><?=Yii::t('app', '​ສະ​ຖາ​ນະ')?></th>
                         <th><?=Yii::t('app', 'ຈໍານວນ​ເງີນສະເຫນີ')?></th>
                         <th><?=Yii::t('app', 'ຈໍານວນເງິນອະນຸມັດ')?></th>
+                        <?php
+                        if(!empty($model->is_oda))
+                        {
+                        ?>
+                        <th><?=Yii::t('app', 'ຈໍານວນເງິນອະນຸມັດ oda')?></th>
+                        <?php
+                        }
+                        ?>
                         <th><?=Yii::t('app', 'ມູນ​ຄ່າ​​ຊຳລະ​ 6 ຕົ້ນ​ປີ')?></th>
                         <th><?=Yii::t('app', 'ມູນ​ຄ່າ​ຊຳລະ​ 6 ທ້າຍ​​ປີ')?></th>
                     </tr>
@@ -117,32 +125,40 @@ $loan=Loan::find()->where(['project_id'=>$model->id])->one();
                         if(!empty($projectprogress))
                         {
                             foreach ($projectprogress as $pg) {
-                            ?>
+                                ?>
                     <tr>
                         <td><?=$pg->project_year?></td>
                         <td><?=ProjectStatus::find()->where(['id'=>$pg->project_status_id])->one()->project_status?>
                         </td>
                         <td><?=$pg->proposal_amount?></td>
                         <td><?=$pg->aproved_amount?></td>
+                        <?php
+                         if(!empty($model->is_oda))
+                            {
+                        ?>
+                        <td><?=$pg->aproved_amount?></td>
+                        <?php
+                        }
+                        ?>
                         <td>
                             <?php
-                                 $model=ProjectPayment::find()->where(['project_progression_id'=>$pg->id,'payment_type'=>'first_six_months'])->one();
-                                if(!empty($model) && $model->amount>0)
+                                 $model_payment_6=ProjectPayment::find()->where(['project_progression_id'=>$pg->id,'payment_type'=>'first_six_months'])->one();
+                                if(!empty($model_payment_6) && $model_payment_6->amount>0)
                                 {
-                                 echo $model->amount;
+                                 echo $model_payment_6->amount;
                                 }else{
-                                    echo "0.00";
+                                    echo "ຍັງ​ບໍ່​ຊຳ​ລະ";
                                 }
                                 ?>
                         </td>
                         <td>
                             <?php
-                                $model=ProjectPayment::find()->where(['project_progression_id'=>$pg->id,'payment_type'=>'full_year'])->one();
-                                if(!empty($model) && $model->amount>0)
+                                $model_payment_12=ProjectPayment::find()->where(['project_progression_id'=>$pg->id,'payment_type'=>'full_year'])->one();
+                                if(!empty($model_payment_12) && $model_payment_12->amount>0)
                                 {
-                                 echo $model->amount;
+                                 echo $model_payment_12->amount;
                                 }else{
-                                    echo "0.00";
+                                    echo "ຍັງ​ບໍ່​ຊຳ​ລະ";
                                 }
                                 ?>
                         </td>

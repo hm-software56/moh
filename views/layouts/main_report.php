@@ -15,6 +15,7 @@ AppAsset::register($this);
 <?php $this->beginPage()?>
 <!DOCTYPE html>
 <html lang="<?=Yii::$app->language?>">
+
 <head>
     <meta charset="<?=Yii::$app->charset?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,11 +24,12 @@ AppAsset::register($this);
     <title><?=Html::encode($this->title)?></title>
     <?php $this->head()?>
 </head>
-<body>
-<?php $this->beginBody()?>
 
-<div class="wrap">
-    <?php
+<body>
+    <?php $this->beginBody()?>
+
+    <div class="wrap">
+        <?php
 NavBar::begin([
     'brandLabel' => Yii::t('app','​ລະ​ບົບ​ເກັບ​ກຳສະຖິຕິໂຄງ​ການ'),
     'brandUrl' => Yii::$app->homeUrl,
@@ -38,13 +40,16 @@ NavBar::begin([
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => (Yii::$app->user->id)?[
-        ['label' => Yii::t('app', 'ໂຄງການ'),'url' => ['project/index']],
+        (Yii::$app->user->identity->type=="Admin")?['label' => Yii::t('app', 'ໂຄງການ'),'url' => ['project/index']]:'',
         ['label' => Yii::t('app', 'ປ້ອນບົດສະເໜີໂຄງການ'),'url' => ['project-proposal-year/index']],
         ['label' => Yii::t('app', 'ລາຍ​ງານ'),
-            'items' => [
-                ['label' => 'ລາຍ​ງານບົດສະເໜີໂຄງການຂອງ​ກົມ', 'url' => ['project-proposal-year/reportexternal']],
-                ['label' => 'ແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ', 'url' => ['project/reportplan']],
-            ],
+        'items' => [
+            ['label' => 'ລາຍ​ງານບົດສະເໜີໂຄງການຂອງ​ກົມ', 'url' => ['project-proposal-year/reportexternal']],
+            (Yii::$app->user->identity->type=="Admin")?'<li class="divider"></li>':"",
+            (Yii::$app->user->identity->type=="Admin")?['label' => 'ແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ', 'url' => ['project/reportplan']]:'',
+            (Yii::$app->user->identity->type=="Admin")?'<li class="divider"></li>':"",
+            (Yii::$app->user->identity->type=="Admin")?['label' => 'ສະ​ຫຼຸບ​ການ​ຈັດ​ຕັ້ງ​ປະ​ຕິ​ບັດແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ', 'url' => ['project/reportsummary']]:'',
+        ],
             
         ],
         (Yii::$app->user->identity->type!="Admin")?['label' => Yii::t('app', 'ຂໍ້​ມູນ​ສ່ວນ​ຕົວ'),'url' => ['user/profile']]:'',
@@ -74,25 +79,26 @@ echo Nav::widget([
 NavBar::end();
 ?>
 
-    <div class="container-fluid">
-        <?=Breadcrumbs::widget([
+        <div class="container-fluid">
+            <?=Breadcrumbs::widget([
             'homeLink' => ['label' =>Yii::t('app','ໜ້າຫຼັກ'),'url'=>['site/index']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 ])?>
-        <?=Alert::widget()?>
-        <?=$content?>
+            <?=Alert::widget()?>
+            <?=$content?>
+        </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?=date('Y')?></p>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">ລິ​ຂະ​ສິດ​ສະ​ງວນ &copy; ​ກະ​ຊວງ​ພາຍ​ໃນ<?=date('Y')?></p>
 
-        <p class="pull-right"><?=Yii::powered()?></p>
-    </div>
-</footer>
+            <p class="pull-right">ພັດ​ທະ​ນາ​ໂດຍ ໄຊ​ເບີ​ເຣຍ</p>
+        </div>
+    </footer>
 
-<?php $this->endBody()?>
+    <?php $this->endBody()?>
 </body>
+
 </html>
 <?php $this->endPage()?>

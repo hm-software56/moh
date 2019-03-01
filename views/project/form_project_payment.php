@@ -4,6 +4,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\ProjectType;
 use app\models\ProjectStatus;
+use app\models\Project;
 
 $script = <<< JS
     $("#modal").modal("show");
@@ -46,7 +47,15 @@ $this->registerJs($script);
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <?= $form->field($model, 'is_oda')->dropDownList([0=>'No',1=>'Yes']) ?>
+                            <?php
+                            $project=Project::find()->where(['id'=>Yii::$app->session['project_id']])->one();
+                            if(!empty($project->is_oda))
+                            {
+                                echo $form->field($model, 'is_oda')->dropDownList([0=>'No',1=>'Yes']);
+                            }else{
+                                echo $form->field($model, 'is_oda')->dropDownList([0=>'No']);
+                            }
+                            ?>
                         </div>
                     </div>
                     <?php ActiveForm::end(); ?>

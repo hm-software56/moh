@@ -48,7 +48,7 @@ if(isset($_POST['year']) && !empty($_POST['year']))
 <hr />
 <div id="textBox">
     <div align="center">
-        <h3><?=Yii::t('app','ແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ ປີ').$year?></h3>
+        <h3><?=Yii::t('app','ສະ​ຫລຸບ​ການ​ຈັດ​ຕັ້ງ​ປະ​ຕິ​ບັດ​ແຜນ​ການ​ລົງ​ທືນ​ຂອງ​ລັດ 6 ເດືອນ​ຕົ້ນ ປີ').$year." ".Yii::t('app','ຂອງ​ກະ​ຊວງ​ພາຍ​ໃນ')?></h3>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">

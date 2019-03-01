@@ -69,7 +69,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(Yii::$app->user->identity->type=="User")
+            {
+                return $this->redirect(['project-proposal-year/index']);
+            }elseif(Yii::$app->user->identity->type=="Admin")
+            {
+                return $this->redirect(['project/index']);
+            }
     }
 
     /**

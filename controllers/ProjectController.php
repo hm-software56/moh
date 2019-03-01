@@ -31,7 +31,19 @@ class ProjectController extends Controller
             ],
         ];
     }
-
+    public function actions()
+    {
+        if(empty(Yii::$app->user->id))
+        {
+            $this->redirect(['site/login']);
+        }else{
+            if(Yii::$app->user->identity->type=="User")
+            {
+                $this->redirect(['site/index']);
+            }
+        }
+        return parent::actions();
+    }
     /**
      * Lists all Project models.
      * @return mixed
@@ -328,6 +340,16 @@ class ProjectController extends Controller
     public function actionReportsummary()
     {
         $this->layout="main_report";
+        if(isset($_POST['csv']) && isset($_POST['export']))
+        {
+            $name='summary ​investment '.date('Y-m-d').'.xls';
+            header('Content-Type: application/force-download');
+            header('Content-disposition: attachment; filename='.$name.'');
+            // Fix for crappy IE bug in download.
+            header("Pragma: ");
+            header("Cache-Control: ");
+            return $_POST['csv'];
+        }
         return $this->render('reportsummary');
     }
 }
