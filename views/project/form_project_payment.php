@@ -67,7 +67,7 @@ $this->registerJs($script);
                             $.ajax({
                             type     :'POST',
                             cache    : false,
-                            url  : 'index.php?r=project/projectpay',
+                            url  : 'index.php?r=project/projectpay&timespay=".$_GET['timespay']."&progress_id=".$_GET['progress_id']."',
                             data: {
                                 is_oda: $('#projectpayment-is_oda').val(),
                                 amount: $('#projectpayment-amount').val(),

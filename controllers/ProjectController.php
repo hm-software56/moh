@@ -251,9 +251,9 @@ class ProjectController extends Controller
             if ($model->aproved_amount==0) {
                 $model->aproved_amount=$postamount_approved;
             }
-
-            $postamount_approved_oda=$_POST['amount_approved_oda'];
-            $model->aproved_amount_oda=substr(preg_replace('/[^A-Za-z0-9\-]/', '', $_POST['amount_approved_oda']), 0, -2);
+            
+            $postamount_approved_oda=@$_POST['amount_approved_oda'];
+            $model->aproved_amount_oda=substr(preg_replace('/[^A-Za-z0-9\-]/', '', @$_POST['amount_approved_oda']), 0, -2);
             if ($model->aproved_amount_oda==0) {
                 $model->aproved_amount_oda=$postamount_approved_oda;
             }

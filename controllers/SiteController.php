@@ -57,7 +57,7 @@ class SiteController extends Controller
     {
         if(!Yii::$app->user->id && $action->id!="login")
         {
-            return $this->redirect(yii\helpers\Url::toRoute(["site/login"]));
+            return $this->redirect(["site/login"]);
         }else{
             return $result;
         }
@@ -69,10 +69,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->identity->type=="User")
+        if(!empty(Yii::$app->user->id) && Yii::$app->user->identity->type=="User")
             {
                 return $this->redirect(['project-proposal-year/index']);
-            }elseif(Yii::$app->user->identity->type=="Admin")
+            }elseif(!empty(Yii::$app->user->id) && Yii::$app->user->identity->type=="Admin")
             {
                 return $this->redirect(['project/index']);
             }
